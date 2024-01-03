@@ -1,25 +1,21 @@
-# 班級資訊平台 5.0（已停止更新）
+<div align="center">
 
-# Class Information Platform 5.0 (No longer updated)
+# 班級資訊平台 6.0 (Beta)
 
-這是一個服務於臺灣臺中市光華高工二年甲班的網站。  
-This website serves Kuanghua High School's 2nd year class A in Taichung, Taiwan.
+這是一個服務於臺灣臺中市光華高工二年甲班的網站。
 
-你可以透過這個網址訪問 (Ctrl/cmd + 點擊 = 新視窗開啟連結)：  
-You can access it by clicking on this URL (Ctrl/Cmd + click to open in a new window):  
-[johnlin10.github.io/classdata-app](https://johnlin10.github.io/classdata-app/)
+你可以點擊以下按鈕訪問：
 
-新的網址（持續更新）：  
-New URL (Continuously updated):  
-[classdata-app.web.app](https://classdata-app.web.app/)
+[![Link to Website]][Website Link]
 
-<hr>
+[Link to Website]:https://img.shields.io/badge/班級資訊平台_Beta_>-4ba2e9?style=for-the-badge
 
-相較於 [4.0 版本](https://github.com/johnlin10/classdata)，改進了網頁架構，降低了開發成本，且提高擴展性。  
-Compared to [Version 4.0](https://github.com/johnlin10/classdata/), we have improved the website structure, reduced development costs, and enhanced scalability.
+[Website Link]: https://classdata-app-beta.web.app
 
-<hr>
+<!-- 相較於 [5.0 版本](https://github.com/johnlin10/classdata-app)，改進了網站樣式，進一步降低了開發成本，進一步提高擴展性，擁有了更好的開發流程，並使用 git 管理版本。 -->
 
-# 最新版本：5.13
+</div>
 
-・改進「聊天室氣泡」樣式
+> 此版本正在內部測試中
+
+> English users can view the [`README.en.md`](https://github.com/johnlin10/classdata-app-6/blob/main/README.en.md) file.
