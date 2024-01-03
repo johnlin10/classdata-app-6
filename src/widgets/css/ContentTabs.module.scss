@@ -1,0 +1,65 @@
+.contentTabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px;
+  margin-left: 48px;
+  background: #0000000f;
+  width: 100%;
+  min-width: max-content;
+  max-width: 720px;
+  height: 42px;
+  border-radius: 13px 13px 13px 13px;
+  -webkit-border-radius: 13px 13px 13px 13px;
+  -moz-border-radius: 13px 13px 13px 13px;
+  -ms-border-radius: 13px 13px 13px 13px;
+  -o-border-radius: 13px 13px 13px 13px;
+}
+.contentTabs.dark {
+  background: #ffffff0f;
+}
+
+@media (max-width: 823px) {
+  .contentTabs {
+    position: fixed;
+    margin-left: 0;
+    padding: 0 6px 6px 6px;
+    top: 54px;
+    left: 0;
+    max-width: none;
+    background: var(--theme-light);
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+  }
+  .contentTabs.dark {
+    background: var(--theme-dark);
+  }
+}
+
+.contentTabsOptn {
+  padding: 0 9px;
+  width: 100%;
+  min-width: max-content;
+  font-size: 1rem;
+  background: #ffffff00;
+  color: #0000005f;
+  border-radius: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  -ms-border-radius: 9px;
+  -o-border-radius: 9px;
+}
+.contentTabsOptn:global(.selected) {
+  background: #ffffffdf;
+  color: #000000e5;
+}
+.contentTabs.dark .contentTabsOptn {
+  background: #0f0f0f00;
+  color: #ffffff5f;
+}
+.contentTabs.dark .contentTabsOptn:global(.selected) {
+  background: #0000004f;
+  color: #ffffffe5;
+}

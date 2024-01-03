@@ -1,0 +1,174 @@
+@media (min-width: 823px) {
+  .main {
+    padding-bottom: 12px;
+  }
+}
+.main > :global(.view) {
+  flex-direction: column;
+}
+.test {
+  color: #50c477;
+}
+
+/* 聊天種類標題 */
+.main .main h3:nth-child(n + 3) {
+  opacity: 0.25;
+}
+.main:global(.dark) h3 {
+  color: #f1f1f1;
+}
+
+/* 聊天種類區塊 */
+.main {
+  > div:global(.view) {
+    overflow-y: scroll;
+    align-items: center;
+
+    > div.chats_list {
+      position: relative;
+      max-width: 1080px;
+      @media (max-width: 823px) {
+        width: calc(100% - 24px);
+      }
+      > h3 {
+        font-size: 1.5rem;
+        margin: 12px 0 0 6px;
+        color: var(--theme-color-L3);
+
+        &:not(:first-child) {
+          margin: 24px 0 0 6px;
+        }
+      }
+      > section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 6px 0 12px 0;
+        width: 100%;
+        max-width: 100%;
+
+        @media (min-width: 823px) {
+          flex-direction: row;
+        }
+
+        > div.chatlist_block {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 9px;
+          // margin: 6px 0 0 0;
+          height: 60px;
+          width: 100%;
+          border-bottom: 0.5px solid #00000015;
+          cursor: pointer;
+
+          @media (min-width: 823px) {
+            max-width: calc(50% - 6px);
+
+            &:nth-child(even) {
+              margin-left: 12px;
+            }
+
+            &:hover {
+              background: #ffffffa1;
+              border-bottom: 1px solid #00000000;
+            }
+            &.actv {
+              z-index: 100;
+              position: sticky;
+              top: 0;
+              bottom: 0;
+              min-width: 100%;
+              background: #fff;
+              border-bottom: 1px solid #00000000;
+              box-shadow: 0 3px 10px 0 #0000000f, 0 6px 50px 0 #0000000a;
+              border-radius: 9px;
+              -webkit-border-radius: 9px;
+              -moz-border-radius: 9px;
+              -ms-border-radius: 9px;
+              -o-border-radius: 9px;
+              transform: scale(103%);
+              -webkit-transform: scale(103%);
+              -moz-transform: scale(103%);
+              -ms-transform: scale(103%);
+              -o-transform: scale(103%);
+            }
+          }
+          > div > p {
+            margin-left: 9px;
+          }
+          > img {
+            pointer-events: none;
+            height: 100%;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+          }
+          transition: 0.15s cubic-bezier(0.5, 0, 0.32, 1);
+          -webkit-transition: 0.15s cubic-bezier(0.5, 0, 0.32, 1);
+          -moz-transition: 0.15s cubic-bezier(0.5, 0, 0.32, 1);
+          -ms-transition: 0.15s cubic-bezier(0.5, 0, 0.32, 1);
+          -o-transition: 0.15s cubic-bezier(0.5, 0, 0.32, 1);
+        }
+      }
+    }
+  }
+}
+
+:global(.dark) .main {
+  > div:global(.view) {
+    > div.chats_list {
+      > section {
+        > div.chatlist_block {
+          @media (min-width: 823px) {
+            &:hover {
+              background: #232323;
+              border-bottom: 1px solid #00000000;
+            }
+            &.actv {
+              background: #2f2f2f;
+              border-bottom: 1px solid #00000000;
+              box-shadow: 0 3px 10px 0 #0000009f, 0 6px 50px 0 #0000005a;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+:global(.dark) div.chatlist_block > div > p {
+  color: #d1d1d1;
+}
+
+@media (min-width: 823px) {
+  .main.actv > div:global(.view) {
+    width: 284px;
+
+    > div.chats_list {
+      > h3 {
+        color: rgb(67, 122, 157);
+      }
+      > section {
+        > div.chatlist_block {
+          @media (min-width: 823px) {
+            max-width: 100%;
+
+            &:nth-child(even) {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .main h3:not(:first-child) {
+    margin: 24px 0 0 12px;
+    font-size: 1.2rem;
+  }
+  .main section {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

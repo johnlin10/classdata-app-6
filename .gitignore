@@ -1,0 +1,15 @@
+node_modules/
+.firebase
+.firebaserc
+.prettierrc.json
+config-overrides.js
+firestore.indexex
+firebase.json
+firestore.rules
+firestore.indexes.rules
+firestore.indexes.json
+firestore.rules
+.env
+**/.DS_Store
+**/.cache
+

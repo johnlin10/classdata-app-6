@@ -1,0 +1,129 @@
+/* @supports ((-webkit-backdrop-filter: initial) or (backdrop-filter: initial)) {
+  .editerView {
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+} */
+.editerView {
+  z-index: 6000;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  width: 0;
+  padding: 21px;
+  background: var(--main-light);
+  opacity: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-radius: 13px;
+  -webkit-border-radius: 13px;
+  -moz-border-radius: 13px;
+  -ms-border-radius: 13px;
+  -o-border-radius: 13px;
+  // transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  // -webkit-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  // -moz-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  // -ms-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  // -o-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+:global(.dark).editerView {
+  background: var(--main-dark);
+}
+
+.editerView::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 991px) {
+  .editerView:global(.open) {
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+  }
+}
+.editerView > .topTitleView {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  padding: 24px 21px 6px 21px;
+  top: -21px;
+  margin-top: -21px;
+  margin-right: -21px;
+  margin-left: -21px;
+  width: calc(100% + 42px);
+  background: #ffffff00;
+  opacity: 1;
+  transition: 0.25s;
+  -webkit-transition: 0.25s;
+  -moz-transition: 0.25s;
+  -ms-transition: 0.25s;
+  -o-transition: 0.25s;
+  border-radius: 13px 13px 0 0;
+  -webkit-border-radius: 13px 13px 0 0;
+  -moz-border-radius: 13px 13px 0 0;
+  -ms-border-radius: 13px 13px 0 0;
+  -o-border-radius: 13px 13px 0 0;
+}
+.editerView > .topTitleView:global(.actv) {
+  padding: 12px 12px 12px 18px;
+  background: #ffffff;
+  opacity: 1;
+  border-radius: 13px 13px 0 0;
+  -webkit-border-radius: 13px 13px 0 0;
+  -moz-border-radius: 13px 13px 0 0;
+  -ms-border-radius: 13px 13px 0 0;
+  -o-border-radius: 13px 13px 0 0;
+}
+:global(.dark).editerView > .topTitleView:global(.actv) {
+  background: #131313;
+}
+.topTitleView div:first-child {
+  display: flex;
+  align-items: center;
+}
+.topTitleView h5 {
+  color: #3f3f3f;
+  font-size: 1.5rem;
+  transition: 0.25s;
+  -webkit-transition: 0.25s;
+  -moz-transition: 0.25s;
+  -ms-transition: 0.25s;
+  -o-transition: 0.25s;
+}
+:global(.dark) .topTitleView h5 {
+  color: #e5e5e5;
+}
+
+.topTitleView:global(.actv) h5 {
+  font-size: 1rem;
+}
+
+.editerContentView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  width: 100%;
+  transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  -webkit-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  -moz-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  -ms-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+  -o-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
+}
+
+@media (min-width: 823px) {
+  // .editerView {
+  //   bottom: 12px;
+  // }
+  // .editerView:global(.open) {
+  //   width: 80%;
+  //   max-width: 823px;
+  //   max-height: 90%;
+  //   height: 720px;
+  // }
+}

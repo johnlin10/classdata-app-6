@@ -1,0 +1,9 @@
+:global(.dark) {
+  header {
+    background: var(--theme-dark);
+
+    &.scrollTop {
+      background: var(--theme-dark);
+    }
+  }
+}
