@@ -2,7 +2,7 @@
 
 # Class Information Platform 6.0 (Beta)
 
-This website serves Kuanghua High School's 2nd year class A in Taichung in Taiwan.
+This website serves Kuanghua High School's 3nd year class A in Taichung in Taiwan.
 
 You can click the following button to access:
 
@@ -17,3 +17,22 @@ You can click the following button to access:
 </div>
 
 > This version is in internal testing...
+
+## What's New?
+
+In this new version, we will provide the following new features:
+
+- Improved website structure
+- Newly revamped user interface
+- More customizable settings
+- More comprehensive chat features
+  - Private Messaging
+  - Create Groups
+  - Privacy protection (end-to-end encrypted messages)
+- Class Postings
+  - Class posting page
+  - Posting
+  - Posting Interaction
+- Personal Files
+  - Browse other people's profiles
+  - Edit Profile
