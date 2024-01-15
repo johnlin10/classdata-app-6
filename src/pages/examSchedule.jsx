@@ -854,7 +854,7 @@ function ExSch(props) {
               content: "資料來源",
               click: () =>
                 window.open(
-                  `https://firebasestorage.googleapis.com/v0/b/classdata-app.appspot.com/o/assets%2Ffiles%2F112-1%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83%E8%80%83%E7%A8%8B%E8%A1%A8.pdf?alt=media&token=b7c9c49e-85ab-420a-bcf2-295bd01de529&_gl=1*ss7t9s*_ga*MTQ4ODkzOTE5NC4xNjgxMDM2Njg5*_ga_CW55HF8NVT*MTY5NjkzNTk4Ny4xOTguMS4xNjk2OTM2MDQwLjcuMC4w`,
+                  `https://firebasestorage.googleapis.com/v0/b/classdata-app.appspot.com/o/assets%2Ffiles%2F112-1期末考考試科目時間表-1.pdf?alt=media&token=453205fb-c3e6-4839-85bf-53745e6e2be8`,
                   "_blank"
                 ),
               icon: [

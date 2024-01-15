@@ -115,7 +115,7 @@ export const HomePostData = [
   {
     postTitle: "班級資訊平台 6.0 Beta 正式開跑！",
     content: "將帶來全新的操作介面，以及眾所期待的新功能！",
-    stylebackground: "_JIN0249.jxl",
+    stylebackground: "",
     classbackground: "home-post",
     divHight: "50px",
     postlink: "platformBtmUpdate",

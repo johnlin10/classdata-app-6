@@ -122,7 +122,7 @@ function Home(props) {
         </div>
         <div id="webIntroduction"></div>
         {/* <div className="homeTopSpc"></div> */}
-        <div className={style.present_container}>
+        {/* <div className={style.present_container}>
           <section className={`${style.present_block} ${style.realTime}`}>
             <h1>即時資訊</h1>
             <img
@@ -136,7 +136,7 @@ function Home(props) {
               // data-rellax-speed="-4.3"
             />
           </section>
-        </div>
+        </div> */}
         <div id="home-view-content">
           {/* <div className="topBg">
             <picture>
