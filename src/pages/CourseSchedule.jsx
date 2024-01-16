@@ -532,7 +532,6 @@ function CourseSchedule(props) {
         const data = doc.data()
         setCourSchData(data.courSchData)
         setCourSchDataBackup(data.courSchData)
-        console.log(data.courSchData)
       })
       setGetCourseSch(true)
     }
@@ -543,10 +542,7 @@ function CourseSchedule(props) {
         setEditedActv(false)
       } else {
         setEditedActv(true)
-        console.log(courSchData === courSchDataBackup)
-        // console.log(courSchDataBackup)
       }
-      console.log(courSchData[0].type)
     }
   }, [courSchData, courSchDataBackup, getCourseSch])
 

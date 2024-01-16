@@ -1,14 +1,14 @@
 // React
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 // import SubscribeCourseSch from './SubscribeCourseSch'
 // Icon Library
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // CSS
-import '../App.scss'
+import "../App.scss"
 
 // 設定頁面組件
 function Setting(props) {
-  const [secretKey, setSecretKey] = useState('')
+  const [secretKey, setSecretKey] = useState("")
   function secretPassage(event) {
     event.preventDefault()
     console.log(secretKey)
@@ -27,33 +27,33 @@ function Setting(props) {
     props.setupPageChange(page)
   }
   useEffect(() => {
-    const setupPageValue = localStorage.getItem('setupPage')
+    const setupPageValue = localStorage.getItem("setupPage")
     if (setupPageValue) {
       setSetupPage(setupPageValue)
     } else {
-      setSetupPage('home')
+      setSetupPage("home")
     }
   }, [])
 
   return (
     <div
       id="Setting"
-      className={`${props.theme}${props.settingPage ? ' open' : ''}`}>
+      className={`${props.theme}${props.settingPage ? " open" : ""}`}>
       <div
         id="closeSetting"
-        className={`${props.settingPage ? 'open' : ''}`}
+        className={`${props.settingPage ? "open" : ""}`}
         onClick={() => props.setSettingPage(false)}>
         <FontAwesomeIcon icon="fa-solid fa-xmark" />
       </div>
       <div
         id="openRepProb"
-        className={`${props.settingPage ? 'open' : ''}`}
+        className={`${props.settingPage ? "open" : ""}`}
         onClick={() => props.setReportProblemActive(true)}>
         建議與問題回報
       </div>
       <div
         id="settingBottomMask"
-        className={props.settingPage ? 'open' : ''}></div>
+        className={props.settingPage ? "open" : ""}></div>
       <div id="settingHeader">
         <h1>設定</h1>
       </div>
@@ -72,7 +72,7 @@ function Setting(props) {
           </button>
         </form>
       </div>
-      <div className={`settingView ${props.settingPage ? 'open' : ''}`}>
+      <div className={`settingView ${props.settingPage ? "open" : ""}`}>
         {/* <p>通知</p>
         <div className="setBlock">
           <div className="setName">
@@ -91,7 +91,7 @@ function Setting(props) {
             <div
               id="prefersMode"
               className={`${props.menuActive} ${
-                props.settingPage ? '' : 'close'
+                props.settingPage ? "" : "close"
               }`}
               onClick={props.handleThemeChange}>
               <div className="slider">
@@ -100,48 +100,11 @@ function Setting(props) {
             </div>
           </div>
         </div>
-        {/* <div className="setBlock">
-          <div className="setName">
-            <h3>預設開啟頁面</h3>
-          </div>
-          <div className="set">
-            <div
-              id="prefersMode"
-              className={`${props.menuActive} ${
-                props.settingPage ? '' : 'close'
-              }`}>
-              <div className="slider">
-                <select
-                  name="setupPageSelect"
-                  id="setupPageSelect"
-                  value={setupPage}
-                  onChange={(e) => setupPageChange(e.target.value)}>
-                  <optgroup label="預設">
-                    <option value="home">首頁</option>
-                  </optgroup>
-                  <optgroup label="主要">
-                    <option value="post">公告</option>
-                    <option value="service">服務</option>
-                    <option value="me">我的</option>
-                    <option value="development">開發</option>
-                  </optgroup>
-                  <optgroup label="服務">
-                    <option value="service/courseSchedule">課程表</option>
-                    <option value="service/examSchedule">考程表</option>
-                  </optgroup>
-                  <optgroup label="Beta">
-                    <option value="chatGroup">討論</option>
-                  </optgroup>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <p>開發選項</p>
         <div
           className="setBlock"
           onClick={() => [
-            props.navigateClick('/development'),
+            props.navigateClick("/webUpdate"),
             props.setSettingPage(false),
           ]}>
           <div className="setName">
