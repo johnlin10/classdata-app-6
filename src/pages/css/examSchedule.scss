@@ -188,13 +188,39 @@
   color: #ffffff;
   padding: 0.5rem 0.7rem 0.5rem 0.7rem;
   margin-bottom: 5px;
-  border-radius: 1.2rem;
-  background: linear-gradient(165deg, #7ec17e, #6894af);
-  box-shadow: 0 3px 5px #3f3f3f3f, 0 5px 15px #3f3f3f1f;
-  -webkit-border-radius: 1.2rem;
-  -moz-border-radius: 1.2rem;
-  -ms-border-radius: 1.2rem;
-  -o-border-radius: 1.2rem;
+  border-top: 1px solid #ffffff3f;
+  border-left: 1px solid #ffffff3f;
+  border-bottom: 1px solid #0000000a;
+  border-right: 1px solid #0000000a;
+  background: linear-gradient(165deg, #65ac65c1, #61a0c7c1);
+  // box-shadow: 0 3px 5px #0000000a, 0 5px 15px #0000000f;
+
+  &.notEx {
+    border-top: 1px solid #ffffff3f;
+    border-left: 1px solid #ffffff3f;
+  }
+  &.opcity {
+    border-top: 1px solid #ffffff00;
+    border-left: 1px solid #ffffff00;
+    border-bottom: 1px solid #00000000;
+    border-right: 1px solid #00000000;
+  }
+
+  &.Empty {
+    opacity: 0;
+  }
+
+  > span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
   transition: 0.25s;
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
@@ -207,9 +233,6 @@
 }
 
 /* 多行多列塊規則 */
-.exTableData.Empty {
-  opacity: 0;
-}
 .exTableData.V2 {
   height: calc(4.8rem + 5px);
 }
@@ -223,8 +246,8 @@
   width: calc(300% + 1rem);
 }
 .exTableData.notEx {
-  color: #5f5f5f;
-  background: #ffffffa1;
+  color: #000000a1;
+  background: #ffffff3f;
 }
 .dark .exTableData.notEx {
   color: #d1d1d1;
@@ -388,6 +411,7 @@
     &:last-child {
       z-index: 80;
     }
+
     > .editBlock {
       display: flex;
       flex-direction: column;

@@ -86,82 +86,237 @@ function CourseSchedule(props) {
       type: "資訊科",
       data: [
         {
-          Date: "星期一",
           Course: [
             {
-              info_classroom: "323e",
+              info_classroom: "551",
+              class: "英語文",
+              continuity: "",
+              info_teacher: "徐玉雪",
+            },
+            {
+              info_teacher: "陳語蘋",
+              continuity: "",
+              class: "國語文",
+              info_classroom: "551",
+            },
+            {
+              continuity: "2 ",
+              info_teacher: "林淑媄",
+              class: "數學",
+              info_classroom: "551",
+            },
+            {
+              continuity: "3 ",
+              class: "專題實作",
+              info_classroom: "485",
+              info_teacher: "葉憲民",
+            },
+          ],
+          Date: "星期一",
+        },
+        {
+          Course: [
+            {
+              info_classroom: "551",
+              continuity: "",
               info_teacher: "徐玉雪",
               class: "英語文",
-              continuity: "2",
             },
             {
-              info_teacher: "王平杰",
-              class: "體育",
-              info_classroom: "",
-              continuity: "",
+              info_teacher: "黃釧泉",
+              continuity: "3 ",
+              class: "電腦輔助電路設計實習",
+              info_classroom: "485",
             },
             {
+              info_classroom: "554",
+              continuity: "3 ",
+              class: "數位電子",
+              info_teacher: "葉憲民",
+            },
+          ],
+          Date: "星期二",
+        },
+        {
+          Date: "星期三",
+          Course: [
+            {
               continuity: "",
-              class: "生涯規劃",
               info_classroom: "551",
               info_teacher: "周嘉慧",
+              class: "生涯規劃",
             },
             {
-              class: "電子電路",
-              continuity: "",
-              info_teacher: "成志樵",
+              continuity: "3 ",
+              info_teacher: "葉憲民",
+              class: "行動裝置程式設計實習",
+              info_classroom: "485",
+            },
+            {
+              class: "科技管理",
               info_classroom: "554",
+              info_teacher: "黃釧泉",
+              continuity: "2 ",
             },
             {
-              info_classroom: "223",
-              info_teacher: "黃日隆",
-              continuity: "2",
-              class: "無人機應用實習",
+              continuity: "",
+              class: "體育",
+              info_classroom: "",
+              info_teacher: "王平杰",
             },
           ],
         },
         {
-          Date: "星期二",
+          Date: "星期四",
           Course: [
             {
-              info_teacher: "葉憲民",
-              class: "微電腦應用實習",
-              continuity: "3",
-              info_classroom: "485",
+              class: "體育",
+              continuity: "",
+              info_classroom: "",
+              info_teacher: "王平杰",
+            },
+            {
+              info_teacher: "成志樵",
+              class: "電子電路",
+              info_classroom: "551",
+              continuity: "3 ",
+            },
+            {
+              info_classroom: "587",
+              continuity: "3 ",
+              info_teacher: "",
+              class: "人工智慧應用實習",
+            },
+          ],
+        },
+        {
+          Date: "星期五",
+          Course: [
+            {
+              class: "週班會",
+              continuity: "",
+              info_teacher: "",
+              info_classroom: "",
+            },
+            {
+              class: "彈性課程",
+              continuity: "",
+              info_classroom: "",
+              info_teacher: "",
+            },
+            {
+              info_classroom: "",
+              continuity: "",
+              class: "社團",
+              info_teacher: "",
+            },
+            {
+              info_teacher: "",
+              continuity: "",
+              info_classroom: "",
+              class: "社團",
+            },
+            {
+              info_classroom: "554/ 555",
+              info_teacher: "",
+              class: "日韓語",
+              continuity: "",
+            },
+            {
+              continuity: "",
+              info_classroom: "551",
+              class: "國語文",
+              info_teacher: "陳語蘋",
             },
             {
               info_teacher: "林淑媄",
-              info_classroom: "485",
-              continuity: "",
               class: "數學",
-            },
-            {
-              class: "互動式網頁設計實習",
-              info_teacher: "葉憲民",
-              continuity: "3",
-              info_classroom: "485",
+              info_classroom: "551",
+              continuity: "",
             },
           ],
+        },
+      ],
+    },
+    {
+      data: [
+        {
+          Course: [
+            {
+              info_teacher: "徐玉雪",
+              info_classroom: "551",
+              continuity: "",
+              class: "英語文",
+            },
+            {
+              info_classroom: "551",
+              class: "國語文",
+              info_teacher: "陳語蘋",
+              continuity: "",
+            },
+            {
+              info_classroom: "551",
+              class: "數學",
+              continuity: "2 ",
+              info_teacher: "林淑媄",
+            },
+            {
+              info_classroom: "485",
+              class: "專題實作",
+              continuity: "3 ",
+              info_teacher: "葉憲民",
+            },
+          ],
+          Date: "星期一",
         },
         {
           Course: [
             {
-              info_teacher: "葉憲民",
-              continuity: "2",
-              class: "數位電子",
-              info_classroom: "485",
+              info_classroom: "551",
+              continuity: "",
+              class: "英語文",
+              info_teacher: "徐玉雪",
             },
             {
-              continuity: "2",
-              info_teacher: "成志樵",
-              info_classroom: "485",
-              class: "電子電路",
-            },
-            {
-              class: "介面電路控制實習",
               info_teacher: "黃釧泉",
-              info_classroom: "484",
-              continuity: "3",
+              info_classroom: "485",
+              continuity: "3 ",
+              class: "電腦輔助電路設計實習",
+            },
+            {
+              info_classroom: "554",
+              class: "數位電子",
+              info_teacher: "葉憲民",
+              continuity: "3 ",
+            },
+          ],
+          Date: "星期二",
+        },
+        {
+          Course: [
+            {
+              info_teacher: "周嘉慧",
+              class: "生涯規劃",
+              info_classroom: "551",
+              continuity: "",
+            },
+            {
+              info_classroom: "485",
+              class: "行動裝置程式設計實習",
+              continuity: "3 ",
+              info_teacher: "葉憲民",
+            },
+            {
+              info_teacher: "黃釧泉",
+              continuity: "2 ",
+              info_classroom: "554",
+              class: "科技管理",
+            },
+            {
+              continuity: "",
+              info_classroom: "",
+              class: "體育",
+              info_teacher: "王平杰",
             },
           ],
           Date: "星期三",
@@ -169,22 +324,22 @@ function CourseSchedule(props) {
         {
           Course: [
             {
+              class: "體育",
+              info_classroom: "",
               continuity: "",
-              class: "數位電子",
-              info_teacher: "葉憲民",
-              info_classroom: "554",
-            },
-            {
-              info_classroom: "583",
-              class: "專題實作",
-              continuity: "3",
-              info_teacher: "葉憲民",
+              info_teacher: "王平杰",
             },
             {
               info_classroom: "551",
-              class: "國語文",
-              continuity: "3",
-              info_teacher: "陳語蘋",
+              continuity: "3 ",
+              class: "電子電路",
+              info_teacher: "成志樵",
+            },
+            {
+              class: "人工智慧應用實習",
+              continuity: "3 ",
+              info_classroom: "587",
+              info_teacher: "",
             },
           ],
           Date: "星期四",
@@ -194,267 +349,137 @@ function CourseSchedule(props) {
           Course: [
             {
               continuity: "",
-              class: "班週會",
+              info_teacher: "",
               info_classroom: "",
-              info_teacher: "葉憲民",
+              class: "週班會",
             },
             {
-              info_teacher: "",
               class: "彈性課程",
-              info_classroom: "",
               continuity: "",
-            },
-            {
               info_classroom: "",
-              class: "綜合活動",
               info_teacher: "",
-              continuity: "2",
+            },
+            {
+              info_teacher: "",
+              info_classroom: "",
+              continuity: "",
+              class: "社團",
+            },
+            {
+              class: "社團",
+              info_classroom: "",
+              continuity: "",
+              info_teacher: "",
+            },
+            {
+              info_teacher: "",
+              class: "日韓語",
+              continuity: "",
+              info_classroom: "554/ 555",
             },
             {
               continuity: "",
-              class: "體育",
-              info_teacher: "王平杰",
-              info_classroom: "",
+              class: "國語文",
+              info_classroom: "551",
+              info_teacher: "陳語蘋",
             },
             {
               info_teacher: "林淑媄",
-              continuity: "2",
-              info_classroom: "",
+              info_classroom: "551",
               class: "數學",
+              continuity: "",
             },
           ],
         },
       ],
-    },
-    {
       type: "電子科",
+    },
+    {
+      type: "電機科",
       data: [
         {
           Date: "星期一",
           Course: [
             {
-              continuity: "2",
               class: "英語文",
-              info_classroom: "323e",
               info_teacher: "徐玉雪",
-            },
-            {
-              info_teacher: "王平杰",
-              info_classroom: "",
-              continuity: "",
-              class: "體育",
-            },
-            {
-              info_teacher: "周嘉慧",
-              continuity: "",
               info_classroom: "551",
-              class: "生涯規劃",
-            },
-            {
-              info_classroom: "554",
-              info_teacher: "成志樵",
               continuity: "",
-              class: "電子電路",
             },
             {
-              continuity: "2",
-              info_teacher: "黃日隆",
-              info_classroom: "223",
-              class: "無人機應用實習",
-            },
-          ],
-        },
-        {
-          Course: [
-            {
-              continuity: "3",
-              info_classroom: "485",
-              class: "微電腦應用實習",
-              info_teacher: "葉憲民",
+              info_teacher: "陳語蘋",
+              class: "國語文",
+              info_classroom: "551",
+              continuity: "",
             },
             {
-              info_classroom: "485",
               class: "數學",
+              continuity: "2 ",
               info_teacher: "林淑媄",
-              continuity: "",
+              info_classroom: "551",
             },
             {
-              class: "互動式網頁設計實習",
+              class: "專題實作",
               info_teacher: "葉憲民",
-              continuity: "3",
               info_classroom: "485",
+              continuity: "3 ",
             },
           ],
-          Date: "星期二",
         },
         {
           Course: [
             {
-              info_teacher: "葉憲民",
-              info_classroom: "485",
-              class: "數位電子",
-              continuity: "2",
-            },
-            {
-              info_classroom: "485",
-              continuity: "2",
-              class: "電子電路",
-              info_teacher: "成志樵",
+              info_teacher: "徐玉雪",
+              continuity: "",
+              class: "英語文",
+              info_classroom: "551",
             },
             {
               info_teacher: "黃釧泉",
-              info_classroom: "484",
-              class: "介面電路控制實習",
-              continuity: "3",
+              class: "電腦輔助電路設計實習",
+              info_classroom: "485",
+              continuity: "3 ",
+            },
+            {
+              continuity: "3 ",
+              info_classroom: "501",
+              class: "電路學",
+              info_teacher: "成志樵",
             },
           ],
-          Date: "星期三",
+          Date: "星期二",
         },
         {
           Course: [
-            {
-              info_teacher: "葉憲民",
-              info_classroom: "554",
-              continuity: "",
-              class: "數位電子",
-            },
-            {
-              continuity: "3",
-              class: "專題實作",
-              info_classroom: "583",
-              info_teacher: "葉憲民",
-            },
             {
               info_classroom: "551",
-              class: "國語文",
-              continuity: "3",
-              info_teacher: "陳語蘋",
-            },
-          ],
-          Date: "星期四",
-        },
-        {
-          Course: [
-            {
-              class: "班週會",
-              info_teacher: "葉憲民",
-              continuity: "",
-              info_classroom: "",
-            },
-            {
-              continuity: "",
-              info_classroom: "",
-              info_teacher: "",
-              class: "彈性課程",
-            },
-            {
-              class: "綜合活動",
-              info_classroom: "",
-              continuity: "2",
-              info_teacher: "",
-            },
-            {
-              continuity: "",
-              class: "體育",
-              info_teacher: "王平杰",
-              info_classroom: "",
-            },
-            {
-              class: "數學",
-              info_classroom: "",
-              info_teacher: "林淑媄",
-              continuity: "2",
-            },
-          ],
-          Date: "星期五",
-        },
-      ],
-    },
-    {
-      data: [
-        {
-          Date: "星期一",
-          Course: [
-            {
-              class: "英語文",
-              info_classroom: "323e",
-              continuity: "2",
-              info_teacher: "徐玉雪",
-            },
-            {
-              continuity: "",
-              info_classroom: "",
-              class: "體育",
-              info_teacher: "王平杰",
-            },
-            {
-              info_classroom: "551",
-              info_teacher: "周嘉慧",
               continuity: "",
               class: "生涯規劃",
+              info_teacher: "周嘉慧",
             },
             {
-              info_teacher: "成志樵",
-              class: "電子電路",
-              continuity: "",
-              info_classroom: "554",
-            },
-            {
-              info_teacher: "黃日隆",
-              class: "無人機應用實習",
-              info_classroom: "223",
-              continuity: "2",
-            },
-          ],
-        },
-        {
-          Date: "星期二",
-          Course: [
-            {
-              continuity: "3",
-              info_teacher: "陳永富",
-              info_classroom: "484",
-              class: "離岸風電與無人機應用實習",
-            },
-            {
-              info_teacher: "林淑媄",
-              info_classroom: "485",
-              continuity: "",
-              class: "數學",
-            },
-            {
-              continuity: "",
+              continuity: "2 ",
               info_classroom: "384",
-              class: "電力電子學",
-              info_teacher: "成志樵",
-            },
-            {
-              info_classroom: "384",
-              continuity: "2",
               class: "變壓器檢修實習",
               info_teacher: "江明德",
             },
-          ],
-        },
-        {
-          Course: [
             {
+              info_classroom: "383",
+              class: "電機機械",
               continuity: "",
-              info_teacher: "成志樵",
-              class: "電力電子學",
-              info_classroom: "581",
-            },
-            {
-              info_classroom: "581",
-              continuity: "3",
-              class: "電力電子應用實習",
-              info_teacher: "施茗鈜",
-            },
-            {
-              info_classroom: "384",
-              class: "電工機械",
-              continuity: "3",
               info_teacher: "江明德",
+            },
+            {
+              info_classroom: "501",
+              continuity: "2 ",
+              info_teacher: "江明德",
+              class: "電機機械",
+            },
+            {
+              info_teacher: "王平杰",
+              class: "體育",
+              continuity: "",
+              info_classroom: "",
             },
           ],
           Date: "星期三",
@@ -463,62 +488,73 @@ function CourseSchedule(props) {
           Date: "星期四",
           Course: [
             {
-              class: "電力電子學",
-              info_teacher: "成志樵",
-              info_classroom: "551",
+              info_teacher: "王平杰",
+              class: "體育",
               continuity: "",
+              info_classroom: "",
             },
             {
-              continuity: "3",
-              class: "專題實作",
-              info_classroom: "583",
-              info_teacher: "葉憲民",
-            },
-            {
+              info_teacher: "成志樵",
+              class: "電子電路",
               info_classroom: "551",
-              continuity: "3",
-              class: "國語文",
-              info_teacher: "陳語蘋",
+              continuity: "3 ",
+            },
+            {
+              info_classroom: "287",
+              continuity: "3 ",
+              class: "消防設施檢修實習",
+              info_teacher: "",
             },
           ],
         },
         {
-          Date: "星期五",
           Course: [
             {
-              class: "班週會",
-              info_teacher: "葉憲民",
-              continuity: "",
               info_classroom: "",
+              info_teacher: "",
+              class: "週班會",
+              continuity: "",
             },
             {
               class: "彈性課程",
-              info_classroom: "",
               continuity: "",
+              info_teacher: "",
+              info_classroom: "",
+            },
+            {
+              continuity: "",
+              info_teacher: "",
+              info_classroom: "",
+              class: "社團",
+            },
+            {
+              continuity: "",
+              info_teacher: "",
+              class: "社團",
+              info_classroom: "",
+            },
+            {
+              class: "日韓語",
+              continuity: "",
+              info_classroom: "554/ 555",
               info_teacher: "",
             },
             {
-              info_teacher: "",
-              info_classroom: "",
-              continuity: "2",
-              class: "綜合活動",
-            },
-            {
-              class: "體育",
-              info_teacher: "王平杰",
+              class: "國語文",
               continuity: "",
-              info_classroom: "",
+              info_classroom: "551",
+              info_teacher: "陳語蘋",
             },
             {
-              continuity: "2",
-              info_teacher: "林淑媄",
-              info_classroom: "",
               class: "數學",
+              info_classroom: "551",
+              info_teacher: "林淑媄",
+              continuity: "",
             },
           ],
+          Date: "星期五",
         },
       ],
-      type: "電機科",
     },
   ]
 
@@ -544,6 +580,7 @@ function CourseSchedule(props) {
         setEditedActv(true)
       }
     }
+    console.log(courSchDataBackup)
   }, [courSchData, courSchDataBackup, getCourseSch])
 
   // 更新課程表
@@ -578,11 +615,14 @@ function CourseSchedule(props) {
 
     setCourSchData((prevData) => {
       const newData = JSON.parse(JSON.stringify(prevData))
+      console.table(newData)
+      console.log(subjectIndex, dayIndex, courseIndex)
       const courseData =
         newData[subjectIndex].data[dayIndex].Course[courseIndex]
 
-      const currentContinuity = courseData.continuity || "" // 確保有值
-      const continuityTags = currentContinuity.split(" ") // 將連續的標籤分開
+      console.log(courseData)
+      const currentContinuity = courseData.continuity || ""
+      const continuityTags = currentContinuity.split(" ")
 
       const index = continuityTags.indexOf(value)
 
@@ -644,7 +684,6 @@ function CourseSchedule(props) {
       const newData = JSON.parse(JSON.stringify(prevData))
       const dayData = newData[subjectIndex].data[dayIndex]
       dayData.Course.push({
-        // 在這裡添加新課程的初始值
         class: "",
         info_classroom: "",
         info_teacher: "",
@@ -1076,6 +1115,7 @@ function CourseSchedule(props) {
                                               )}
                                               onChange={(e) =>
                                                 handleContinuityChange(
+                                                  e,
                                                   subjectIndex,
                                                   dayIndex,
                                                   courseIndex,
@@ -1084,12 +1124,12 @@ function CourseSchedule(props) {
                                               }
                                             />
                                             <p>調課</p>
-                                            <div className={style.originCourse}>
+                                            {/* <div className={style.originCourse}>
                                               <input
                                                 type="text"
                                                 placeholder="原課程"
                                               />
-                                            </div>
+                                            </div> */}
                                           </label>
                                           <label
                                             className={
@@ -1107,6 +1147,7 @@ function CourseSchedule(props) {
                                               )}
                                               onChange={(e) =>
                                                 handleContinuityChange(
+                                                  e,
                                                   subjectIndex,
                                                   dayIndex,
                                                   courseIndex,

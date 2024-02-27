@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, Navigate, Route, Routes, Outlet } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import React, { useEffect, useState } from "react"
+import { useNavigate, Navigate, Route, Routes, Outlet } from "react-router-dom"
+import { Helmet } from "react-helmet"
 // CSS
-import "../App.scss";
-// 自定義函式庫
-import useUrlParams from "../js/UpdateUrlParams";
+import "../App.scss"
 // DataBase
-import { ServiceData, ToolsData, DocsData } from "../AppData/AppData.js";
+import { ServiceData, ToolsData, DocsData } from "../AppData/AppData.js"
 // Icon Library
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 function Service(props) {
   // 頁面動畫
-  const [pageTitleAni, setPageTitleAni] = useState(true);
+  const [pageTitleAni, setPageTitleAni] = useState(true)
   useEffect(() => {
-    setPageTitleAni(false);
-  }, []);
-  const { urlParams, removeUrlParam, addUrlParams } = useUrlParams();
+    setPageTitleAni(false)
+  }, [])
   return (
     <>
       <main
@@ -165,7 +162,7 @@ function Service(props) {
       </main>
       <Outlet />
     </>
-  );
+  )
 }
 
-export default Service;
+export default Service

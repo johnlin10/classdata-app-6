@@ -36,10 +36,18 @@ export const AppProvider = ({ children }) => {
 
   const [pageHeaderTitle, setPageHeaderTitle] = useState("")
 
+  // 用戶公私鑰
+  const [publicKey, setPublicKey] = useState()
+  const [privateKey, setPrivateKey] = useState()
+
   // 打包狀態和狀態設置函數
   const value = {
     user,
     adminPermit,
+    publicKey,
+    setPublicKey,
+    privateKey,
+    setPrivateKey,
     pageHeaderTitle,
     setPageHeaderTitle,
     chatTo,

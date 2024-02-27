@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react"
+import { Helmet } from "react-helmet"
 // Icon Library
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // firestore
-import { db } from '../firebase'
+import { db } from "../firebase"
 import {
   collection,
   addDoc,
@@ -12,21 +13,21 @@ import {
   setDoc,
   onSnapshot,
   updateDoc,
-} from 'firebase/firestore'
-import { WebVersion } from '../AppData/AppData'
-import css from './css/WebUpdate.module.scss'
+} from "firebase/firestore"
+import { WebVersion } from "../AppData/AppData"
+import css from "./css/WebUpdate.module.scss"
 // Widget
-import PageTitle from '../widgets/PageTitle'
+import PageTitle from "../widgets/PageTitle"
 
 // CSS
-import '../App.scss'
+import "../App.scss"
 
 export default function WebUpdate(props) {
   const [themeColor, setThemeColor] = useState([
-    'var(--main-light)',
-    '#000000f1',
-    'var(--main-dark)',
-    '#fffffff1',
+    "var(--main-light)",
+    "#000000f1",
+    "var(--main-dark)",
+    "#fffffff1",
   ])
   // 頁面動畫
   const [pageTitleAni, setPageTitleAni] = useState(true)
@@ -36,13 +37,13 @@ export default function WebUpdate(props) {
 
   // 資料處理 \n 自動換行
   const formatContent = (content) => {
-    return content.split('\n').map((line, index) => <p key={index}>{line}</p>)
+    return content.split("\n").map((line, index) => <p key={index}>{line}</p>)
   }
 
   // 獲取資料
   const [webVersionData, setWebVersionData] = useState()
   useEffect(() => {
-    const webVersionRef = doc(db, 'webVersion', 'webVersion')
+    const webVersionRef = doc(db, "webVersion", "webVersion")
     const unsubscribe = onSnapshot(webVersionRef, async (doc) => {
       const data = doc.data()
       // 對版本號進行排序
@@ -84,15 +85,15 @@ export default function WebUpdate(props) {
     )
 
     const options = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      weekday: 'short',
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      weekday: "short",
     }
     let formattedDate = date
-      .toLocaleDateString('zh-TW', options)
-      .replaceAll('/', '.')
-    formattedDate = formattedDate.replace('（', ' ').replace('）', '')
+      .toLocaleDateString("zh-TW", options)
+      .replaceAll("/", ".")
+    formattedDate = formattedDate.replace("（", " ").replace("）", "")
     return formattedDate
   }
 
@@ -110,16 +111,16 @@ export default function WebUpdate(props) {
       <main
         id="webUpdate"
         className={`${css.webUpdate} ${props.theme}${
-          props.theme && props.settingPage ? ' ' : ''
-        }${props.settingPage ? 'settingOpen' : ''}`}>
-        <div className={`view ${css.view}${pageTitleAni ? ' PTAni' : ''}`}>
+          props.theme && props.settingPage ? " " : ""
+        }${props.settingPage ? "settingOpen" : ""}`}>
+        <div className={`view ${css.view}${pageTitleAni ? " PTAni" : ""}`}>
           <div>
             <div
               className={`${css.newVersion_view}${
                 webVersionData &&
                 WebVersion[0].version === webVersionData.versions[0].version
-                  ? ''
-                  : ' newV'
+                  ? ""
+                  : " newV"
               }`}>
               {webVersionData && (
                 <>
@@ -131,25 +132,25 @@ export default function WebUpdate(props) {
                       <span>
                         <FontAwesomeIcon
                           icon="fa-solid fa-circle-up"
-                          style={{ marginRight: '3px' }}
+                          style={{ marginRight: "3px" }}
                         />
                         新版本
                       </span>
                       <h1>{webVersionData.versions[0].version}</h1>
                       {formatContent(webVersionData.versions[0].content)}
                       <button
-                        className={props.updateAvailable ? '' : `${css.load}`}
+                        className={props.updateAvailable ? "" : `${css.load}`}
                         onClick={
                           props.updateAvailable ? props.handleUpdate : () => {}
                         }>
                         {props.updateAvailable ? (
-                          '立即更新'
+                          "立即更新"
                         ) : (
                           <>
                             <FontAwesomeIcon
                               icon="fa-solid fa-spinner"
                               spinPulse
-                              style={{ marginRight: '6px' }}
+                              style={{ marginRight: "6px" }}
                             />
                             獲取更新中...
                           </>
@@ -164,14 +165,14 @@ export default function WebUpdate(props) {
               className={`${css.currentVersion_view}${
                 webVersionData &&
                 WebVersion[0].version === webVersionData.versions[0].version
-                  ? ''
-                  : ' newV'
+                  ? ""
+                  : " newV"
               }`}>
               <div className={css.currentVersion_block}>
                 <span>
                   <FontAwesomeIcon
                     icon="fa-solid fa-check"
-                    style={{ marginRight: '3px' }}
+                    style={{ marginRight: "3px" }}
                   />
                   當前版本
                 </span>

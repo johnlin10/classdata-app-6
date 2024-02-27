@@ -4019,6 +4019,7 @@ main {
     line-height: 1.2;
   }
   .Table_Data.Vacances {
+    height: calc(16.8rem + 30px);
     color: #fff;
     background: linear-gradient(115deg, #36a436, #4a87ac);
     transition: 0.25s;
@@ -4026,6 +4027,9 @@ main {
     -moz-transition: 0.25s;
     -ms-transition: 0.25s;
     -o-transition: 0.25s;
+  }
+  .Table_Data.Vacances.open {
+    height: calc(28rem + 30px);
   }
   .Table_Data.Vacances:hover {
     background: linear-gradient(115deg, #2d8f2d, #3e7495);
@@ -4158,6 +4162,12 @@ main {
             &.Vacances {
               background: linear-gradient(115deg, #2d8f2d, #3e7495);
 
+              .editInput {
+                &::after {
+                  content: "";
+                  min-height: 196.5px * 6 + 6px * 6;
+                }
+              }
               > .classCtrl {
                 button {
                   color: #ffffffa1;

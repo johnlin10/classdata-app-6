@@ -11,6 +11,7 @@ import {
 } from "react-router-dom"
 import { AppContext } from "../AppContext"
 import { Helmet } from "react-helmet"
+
 // CSS
 import "../App.scss"
 import css from "./css/Chats.module.scss"
@@ -41,11 +42,12 @@ export default function Chats(props) {
     user,
     chatTo,
     setChatTo,
-    chatAnimation,
     setChatAnimation,
-    setPageHeaderTitle,
+    setPublicKey,
+    setPrivateKey,
   } = useContext(AppContext)
   const [chatsList, setChatsList] = useState([])
+  const [schoolUserList, setSchoolUserList] = useState([])
   // 頁面動畫
   const [pageTitleAni, setPageTitleAni] = useState(true)
   useEffect(() => {
@@ -60,8 +62,114 @@ export default function Chats(props) {
   const adminUsers = [process.env.REACT_APP_ADMIN, process.env.REACT_APP_SYSEM]
   const otherUsers = [process.env.REACT_APP_CHAT_01]
 
-  //
-  const [schoolUserList, setSchoolUserList] = useState([])
+  async function generateAndExportKeys() {
+    try {
+      // Generate the RSA key pair
+      const keyPair = await window.crypto.subtle.generateKey(
+        {
+          name: "RSA-OAEP",
+          modulusLength: 2048,
+          publicExponent: new Uint8Array([1, 0, 1]),
+          hash: "SHA-256",
+        },
+        true,
+        ["encrypt", "decrypt"]
+      )
+
+      // Export the public key to PEM format
+      const publicKey = await window.crypto.subtle.exportKey(
+        "spki",
+        keyPair.publicKey
+      )
+      const publicKeyPem = spkiToPEM(publicKey)
+
+      // Export the private key to PEM format
+      const privateKey = await window.crypto.subtle.exportKey(
+        "pkcs8",
+        keyPair.privateKey
+      )
+      const privateKeyPem = pkcs8ToPEM(privateKey)
+
+      return {
+        publicKey: publicKeyPem,
+        privateKey: privateKeyPem,
+      }
+    } catch (error) {
+      console.error("Key pair generation and export failed", error)
+      return null
+    }
+  }
+
+  // Helper function to convert ArrayBuffer to PEM string
+  function arrayBufferToBase64String(arrayBuffer) {
+    const byteArray = new Uint8Array(arrayBuffer)
+    const byteString = byteArray.reduce(
+      (data, byte) => data + String.fromCharCode(byte),
+      ""
+    )
+    return btoa(byteString)
+  }
+
+  // Convert a SPKI to PEM
+  function spkiToPEM(keyData) {
+    const base64String = arrayBufferToBase64String(keyData)
+    return `-----BEGIN PUBLIC KEY-----\n${base64String}\n-----END PUBLIC KEY-----\n`
+  }
+
+  // Convert a PKCS8 to PEM
+  function pkcs8ToPEM(keyData) {
+    const base64String = arrayBufferToBase64String(keyData)
+    return `-----BEGIN PRIVATE KEY-----\n${base64String}\n-----END PRIVATE KEY-----\n`
+  }
+
+  useEffect(() => {
+    if (user) {
+      getFirestoreData(`chats/${user.uid}`)
+        .then((data) => {
+          if (
+            !data ||
+            Object.keys(data).length === 0 ||
+            data === null ||
+            !data.publicKey
+          ) {
+            generateAndExportKeys().then((keyPair) => {
+              if (keyPair) {
+                setPublicKey(keyPair.publicKey)
+                setPrivateKey(keyPair.privateKey)
+                console.log(keyPair.publicKey)
+                writeFirestoreDoc(`chats/${user.uid}`, {
+                  publicKey: keyPair.publicKey,
+                  private: { privateKey: keyPair.privateKey },
+                })
+                getFirestoreData(`user/${user.email}`).then((data) => {
+                  if (
+                    !data ||
+                    Object.keys(data).length === 0 ||
+                    data === null ||
+                    !data.private?.privateKey
+                  ) {
+                    writeFirestoreDoc(`user/${user.email}`, {
+                      private: { privateKey: keyPair.privateKey },
+                    })
+                  }
+                })
+              }
+            })
+          } else {
+            console.table({
+              publicKey: data.publicKey,
+              privateKey: data.private?.privateKey,
+            })
+            console.log(data)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }, [user])
+
+  // 獲取用戶列表
   useEffect(() => {
     // 获取数据
     const chatGroupDataRef = collection(db, "user")
@@ -118,6 +226,7 @@ export default function Chats(props) {
             name: someoneData.name,
             uid: someoneData.uid,
             headSticker: someoneData.headSticker,
+            publicKey: someoneData.publicKey,
           })
           console.log("該用戶尚未創建檔案，現已為該用戶建立！")
         } else {

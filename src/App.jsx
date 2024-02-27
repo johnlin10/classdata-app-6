@@ -422,16 +422,16 @@ export default function App() {
   }, [location])
 
   // 版權標示
-  useEffect(() => {
-    const cc = document.querySelector(".cc")
-    if (location.pathname === "/" && !isTop) {
-      if (cc) {
-        cc.classList.add("open")
-      }
-    } else {
-      cc.classList.remove("open")
-    }
-  }, [isTop, location])
+  // useEffect(() => {
+  //   const cc = document.querySelector(".cc")
+  //   if (location.pathname === "/" && !isTop) {
+  //     if (cc) {
+  //       cc.classList.add("open")
+  //     }
+  //   } else {
+  //     cc.classList.remove("open")
+  //   }
+  // }, [isTop, location])
 
   useEffect(() => {
     setTimeout(() => {
@@ -645,7 +645,8 @@ export default function App() {
                       ) : (
                         <>
                           <img
-                            src={`${process.env.PUBLIC_URL}/images/icons/user.png`}></img>
+                            src={`${process.env.PUBLIC_URL}/images/icons/user.png`}
+                            alt="前往登入"></img>
                           <span>前往登入</span>
                         </>
                       )}

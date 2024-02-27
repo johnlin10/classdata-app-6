@@ -28,8 +28,8 @@ export default function Chatroom() {
   const [selfMessages, setSelfMessages] = useState()
   const [someoneMessages, setSomeoneMessages] = useState()
   const [mergedMessages, setMergedMessages] = useState([])
-
   const [messageInputText, setMessageInputText] = useState("")
+
   // 頁面動畫
   const [pageTitleAni, setPageTitleAni] = useState(chatAnimation)
   useEffect(() => {
@@ -37,6 +37,15 @@ export default function Chatroom() {
       setPageTitleAni(false)
     }, 10)
     setChatAnimation(false)
+  }, [])
+
+  useEffect(() => {
+    try {
+      const selfInfo = getFirestoreData(`chats/${chatTo[0].self.uid}`)
+      console.log(selfInfo)
+    } catch (error) {
+      console.log("Error to get self info")
+    }
   }, [])
 
   useEffect(() => {
@@ -105,7 +114,6 @@ export default function Chatroom() {
 
         if (toSomeoneMessage) {
           setSelfMessages(toSomeoneMessage.messages)
-          console.log(toSomeoneMessage.messages)
         } else {
           setSelfMessages([])
         }
@@ -117,7 +125,7 @@ export default function Chatroom() {
     }
   }, [chatTo])
 
-  // 獲取 對方所有訊息的列表 並 提取 對方與自身的對話紀錄
+  // 獲取 對方所有訊息的列表 並 提取 與自身的對話紀錄
   useEffect(() => {
     if (chatTo) {
       const q = query(collection(db, `chats/${chatTo[0].to.uid}/messages`))
@@ -128,12 +136,12 @@ export default function Chatroom() {
           messages.push({ id: doc.id, ...doc.data() })
         })
 
-        const toSomeoneMessage = messages.find(
+        const toSelfMessage = messages.find(
           (message) => message.id === chatTo[0].self.uid
         )
 
-        if (toSomeoneMessage) {
-          setSomeoneMessages(toSomeoneMessage.messages)
+        if (toSelfMessage) {
+          setSomeoneMessages(toSelfMessage.messages)
         } else {
           setSomeoneMessages([])
         }
