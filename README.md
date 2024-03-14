@@ -12,13 +12,9 @@
 
 [Website Link]: https://classdata-app-beta.web.app
 
-<!-- 相較於 [5.0 版本](https://github.com/johnlin10/classdata-app)，改進了網站樣式，進一步降低了開發成本，進一步提高擴展性，擁有了更好的開發流程，並使用 git 管理版本。 -->
-
 </div>
 
-> 此版本正在內部測試中
-
-> English users can view the [`README.en.md`](https://github.com/johnlin10/classdata-app-6/blob/main/README.en.md) file.
+> 此版本正在內部測試中：正在重構網站架構...
 
 ## What's New?
 
@@ -38,6 +34,8 @@
 - 個人檔案
   - 瀏覽他人個人檔案
   - 編輯個人檔案
+
+> English users can view the [`README.en.md`](https://github.com/johnlin10/classdata-app-6/blob/main/README.en.md) file.
 
 <div align="center">
 
