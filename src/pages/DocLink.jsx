@@ -15,7 +15,7 @@ import rehypeRaw from "rehype-raw"
 
 function DocLink(props) {
   const [markdown, setMarkdown] = useState("")
-  const { urlParams, removeUrlParam, addUrlParams } = useUrlParams()
+  const { removeUrlParam } = useUrlParams()
 
   useEffect(() => {
     if (props.docUrl) {

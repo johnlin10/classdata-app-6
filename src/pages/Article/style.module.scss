@@ -1,35 +1,10 @@
-#Article {
+.view {
   position: relative;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
-}
-#articlesBackMask {
-  position: fixed;
-  z-index: 8990;
-  background: #ffffff00;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  transition: 0.6s;
-  -webkit-transition: 0.6s;
-  -moz-transition: 0.6s;
-  -ms-transition: 0.6s;
-  -o-transition: 0.6s;
-}
-#articlesBackMask.open {
-  background: #ffffffd1;
-  pointer-events: all;
-}
-.dark #articlesBackMask {
-  background: #00000000;
-}
-.dark #articlesBackMask.open {
-  background: #000000d1;
 }
 #articles {
   z-index: 9000;

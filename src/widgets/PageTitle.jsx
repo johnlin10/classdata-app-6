@@ -1,46 +1,48 @@
 // React
 import React, { useEffect, useState, useContext } from "react"
-import { useLocation } from "react-router-dom"
+import { AppContext } from "../AppContext"
 // Icon Library
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 // css
 import css from "./css/PageTitle.module.scss"
 import ContentTabs from "./ContentTabs"
-import { AppContext } from "../AppContext"
 
-export default function PageTitle(props) {
-  const location = useLocation()
-  const { chatToWho, setChatToWho, pageHeaderTitle, setPageHeaderTitle } =
-    useContext(AppContext)
-  const [pageTitleAni, setPageTitleAni] = useState(true)
+import { getPageName } from "../General/GeneralFunction"
+import { useNavigate } from "react-router-dom"
+
+export default function PageTitle() {
+  const {
+    pageHeaderTitle,
+    setPageHeaderTitle,
+    globalLocation,
+    pageSelectTabs,
+  } = useContext(AppContext)
   const [pageTitle, setPageTitle] = useState("")
   const [chatPhoto, setChatPhoto] = useState("")
+  const navigate = useNavigate()
+
   useEffect(() => {
-    setPageTitleAni(false)
-  }, [])
-  useEffect(() => {
-    const title = props.checkPageName(props.location.pathname)
+    // 獲取當前頁面對應標題
+    if (!globalLocation) return
+    const title = getPageName(globalLocation.pathname)
+
     if (title === null) {
       setPageTitle(pageHeaderTitle)
     } else {
       setPageTitle(title)
     }
-    // if (chatToWho && location.pathname === "/chats/chatroom") {
-    //   console.log(chatToWho[0].to)
-    //   console.log(chatToWho[0].to.headSticker)
-    //   setChatPhoto(chatToWho[0].to.headSticker)
-    // }
-  }, [location])
+  }, [globalLocation, pageHeaderTitle])
+
   return (
     <>
-      <li className={`${css.pageli}${` ${props.isDark && css.dark}`}`}>
+      <li className={`${css.pageli}`}>
         <div className={`${css.block}`}>
           <button
             onClick={() => {
               setPageHeaderTitle("")
               setChatPhoto()
-              window.history.back()
+              navigate(-1)
             }}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
@@ -50,13 +52,12 @@ export default function PageTitle(props) {
           <p>{pageTitle}</p>
         </div>
       </li>
-      {props.tabs && (
+      {pageSelectTabs && (
         <ContentTabs
-          isDark={props.isDark}
-          onTop={props.tabs.onTop}
-          options={props.tabs.options}
-          onChange={props.tabs.onChange}
-          selected={props.tabs.selected}
+          onTop={pageSelectTabs.onTop}
+          options={pageSelectTabs.options}
+          onChange={pageSelectTabs.onChange}
+          selected={pageSelectTabs.selected}
         />
       )}
     </>

@@ -1,15 +1,18 @@
 node_modules/
-.firebase
-.firebaserc
+functions/node_modules/
+**/.cache
+**/.env
+.vscode
 .prettierrc.json
 config-overrides.js
-firestore.indexex
+
+# firebae
+.firebase
+.firebaserc
 firebase.json
+firestore.indexex
 firestore.rules
 firestore.indexes.rules
 firestore.indexes.json
-firestore.rules
-.env
-**/.DS_Store
-**/.cache
 
+**/.DS_Store

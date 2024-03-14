@@ -1,15 +1,17 @@
-import { useRef, useEffect, useState } from 'react'
-import { HomePostData } from '../AppData/AppData'
-import './css/Articles.scss'
-import { Helmet } from 'react-helmet'
+import { useRef, useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { HomePostData } from "../../AppData/AppData"
+import style from "./style.module.scss"
+import { Helmet } from "react-helmet"
 
 // Icon Library
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-// 自定義函式庫
-import useUrlParams from '../js/UpdateUrlParams'
-
-export default function Articles(props) {
+export default function Articles() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const articleId = queryParams.get("article")
   // 頁面動畫
   const [pageTitleAni, setPageTitleAni] = useState(true)
   useEffect(() => {
@@ -18,27 +20,25 @@ export default function Articles(props) {
 
   // 資料處理 \n 自動換行
   const formatContent = (content) => {
-    return content.split('\n').map((line, index) => <p key={index}>{line}</p>)
+    return content.split("\n").map((line, index) => <p key={index}>{line}</p>)
   }
   const [postData, setPostData] = useState([])
-  const [postTitle, setPostTitle] = useState('標題')
-  const [postDescription, setPostDescription] = useState('描述')
-  useEffect(() => {
-    // 假設要找postlink值為'v5update'的postData
-    const postlinkToFind = props.readArticle
+  const [postTitle, setPostTitle] = useState("標題")
+  const [postDescription, setPostDescription] = useState("描述")
 
-    // 使用filter篩選出postlink等於要找的值的資料組，再用map取得它的postData
+  useEffect(() => {
+    console.log(articleId)
+    const postlinkToFind = articleId
+
     const foundPostsData = HomePostData.filter(
       (item) => item.postlink === postlinkToFind
     ).map((item) => item.postData)
 
-    // 將找到的資料設為postData的狀態
     setPostData(foundPostsData)
-    // console.log(foundPostsData[0])
-  }, [props.openPost, props.readArticle])
+  }, [articleId])
 
   useEffect(() => {
-    const postlinkToFind = props.readArticle
+    const postlinkToFind = articleId
     const foundPostsData = HomePostData.filter(
       (item) => item.postlink === postlinkToFind
     ).map((item) => item)
@@ -46,22 +46,7 @@ export default function Articles(props) {
       setPostTitle(foundPostsData[0].postTitle)
       setPostDescription(foundPostsData[0].content)
     }
-  }, [postData])
-
-  // 關閉文章頁面
-  const { urlParams, removeUrlParam, addUrlParams } = useUrlParams()
-  function closePost() {
-    setPageTitleAni(true)
-    props.setReadArticle('')
-
-    setTimeout(() => {
-      const updatedParams = { ...urlParams }
-      delete updatedParams.post
-
-      removeUrlParam('post')
-      props.setPostActive(false)
-    }, 500)
-  }
+  }, [articleId, postData])
 
   const scrollTop = useRef(null)
 
@@ -76,15 +61,15 @@ export default function Articles(props) {
       }
     }
     if (currentScrollTop) {
-      currentScrollTop.addEventListener('scroll', handleScroll)
+      currentScrollTop.addEventListener("scroll", handleScroll)
       return () => {
-        currentScrollTop.removeEventListener('scroll', handleScroll)
+        currentScrollTop.removeEventListener("scroll", handleScroll)
       }
     }
   }, [])
 
   return (
-    <div ref={scrollTop} id="Article" className={`${props.theme}`}>
+    <div ref={scrollTop} id="Article" className={style.view}>
       <Helmet>
         <title>{postTitle}｜班級資訊平台</title>
         <meta name="description" content={postTitle} />
@@ -97,13 +82,13 @@ export default function Articles(props) {
 
       <div
         id="articles"
-        className={`${pageTitleAni ? '' : 'open'}${
-          topTitleActv ? ' top' : ''
+        className={`${style.container}${pageTitleAni ? "" : ` ${style.open}`}${
+          topTitleActv ? ` ${style.top}` : ""
         }`}>
         <button
           id="articlesClose"
-          className={pageTitleAni ? '' : 'open'}
-          onClick={closePost}
+          className={pageTitleAni ? "" : "open"}
+          onClick={() => navigate(-1)}
           title="關閉">
           <FontAwesomeIcon icon="fa-solid fa-xmark" />
         </button>
@@ -140,7 +125,7 @@ export default function Articles(props) {
                   <>
                     <img
                       src={`${
-                        item.postImage[0].src.includes('https://')
+                        item.postImage[0].src.includes("https://")
                           ? item.postImage[0].src
                           : `${process.env.PUBLIC_URL}${item.postImage[0].src}`
                       }`}
@@ -163,10 +148,6 @@ export default function Articles(props) {
             ))}
         </div>
       </div>
-      <div
-        id="articlesBackMask"
-        className={`${pageTitleAni ? '' : 'open'}`}
-        onClick={closePost}></div>
     </div>
   )
 }

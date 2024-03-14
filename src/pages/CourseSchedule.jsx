@@ -847,19 +847,6 @@ function CourseSchedule(props) {
           ) : (
             <Loader />
           )}
-          <div
-            id="Tips"
-            style={{ display: props.TipsActive ? "flex" : "none" }}>
-            <div>
-              <span>課程表現已升級為雲端即時資訊！</span>
-            </div>
-            <div id="closeBtnView" onClick={props.Tips}>
-              <div id="closeBtn">
-                <div className="BtnLineL"></div>
-                <div className="BtnLineR"></div>
-              </div>
-            </div>
-          </div>
           {editPrmsn && false && (
             <EditBtn
               theme={props.theme}

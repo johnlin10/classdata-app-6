@@ -119,7 +119,7 @@ export const HomePostData = [
     stylebackground: "",
     classbackground: "home-post",
     divHight: "50px",
-    postlink: "platformBtmUpdate",
+    postlink: "ImprovementsToTheBottomOfTheSite",
     postTime: "2024.2.27",
     postData: [
       {

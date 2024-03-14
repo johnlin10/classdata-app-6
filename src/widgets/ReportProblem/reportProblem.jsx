@@ -1,56 +1,51 @@
-import React, { useEffect, useState, useRef } from "react";
-import "./css/reportProblem.scss";
-import emailjs from "emailjs-com";
+import React, { useEffect, useState, useRef } from "react"
+import style from "./style.module.scss"
+import emailjs from "emailjs-com"
 // Icon Library
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 function ReportProblem(props) {
-  const [btnTxt, setBtnTxt] = useState("傳送");
-  const formRef = useRef(null);
-  emailjs.init("o7c3uHOnTzU9CMyHy");
+  const [btnTxt, setBtnTxt] = useState("傳送")
+  const formRef = useRef(null)
+  emailjs.init("o7c3uHOnTzU9CMyHy")
 
   useEffect(() => {
     formRef.current.addEventListener("submit", function (event) {
-      event.preventDefault();
+      event.preventDefault()
 
-      setBtnTxt("傳送中...");
+      setBtnTxt("傳送中...")
 
-      const serviceID = "default_service";
-      const templateID = "template_j81x4hm";
+      const serviceID = "default_service"
+      const templateID = "template_j81x4hm"
 
       emailjs.sendForm(serviceID, templateID, this).then(
         () => {
-          setBtnTxt("已傳送");
-          formRef.current.reset();
-          alert("我們已收到你的訊息！");
+          setBtnTxt("已傳送")
+          formRef.current.reset()
+          alert("我們已收到你的訊息！")
         },
         (err) => {
-          setBtnTxt("重新傳送");
-          alert(JSON.stringify(err));
+          setBtnTxt("重新傳送")
+          alert(JSON.stringify(err))
         }
-      );
-    });
-  }, []);
+      )
+    })
+  }, [])
 
   function problemAgan() {
-    setBtnTxt("傳送");
+    setBtnTxt("傳送")
   }
   function closeReport() {}
 
   return (
-    <div id="repProbPage" className={`${props.theme}`}>
-      <div
-        id="closeRepProb"
-        className={`${props.reportProblemActive ? "open" : ""}`}
-        onClick={() => props.setReportProblemActive(false)}>
-        <FontAwesomeIcon icon="fa-solid fa-xmark" />
-      </div>
+    <div id="repProbPage" className={style.container}>
       <div
         id="reportProblemPage"
         className={props.reportProblemActive ? "open" : ""}>
         <form ref={formRef} className="repProbForm">
           <div id="repProbModeView">
             <label htmlFor="repProbMode"></label>
+            我想要提供
             <select name="repProbMode" id="repProbMode" onChange={problemAgan}>
               <optgroup label="類型">
                 <option>問題回報</option>
@@ -58,6 +53,7 @@ function ReportProblem(props) {
               </optgroup>
             </select>
           </div>
+
           <div className="problemtext">
             <span>類型</span>
           </div>
@@ -142,7 +138,7 @@ function ReportProblem(props) {
         className={props.reportProblemActive ? "open" : ""}
         onClick={() => props.setReportProblemActive(false)}></div>
     </div>
-  );
+  )
 }
 
-export default ReportProblem;
+export default ReportProblem

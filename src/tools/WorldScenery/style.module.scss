@@ -1,0 +1,44 @@
+.view {
+  padding: 1.5rem;
+  width: 100%;
+  height: 100%;
+  max-width: 640px;
+  background-size: cover;
+  background-position: center;
+
+  > .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    > .topContent {
+      > a {
+        font-weight: 500;
+        color: #ffffffd1;
+        text-shadow: 1px 1px 7px #000;
+
+        > svg {
+          color: #ffffff;
+        }
+      }
+    }
+
+    > .bottomContent {
+      > h1 {
+        color: #ffffffe1;
+        text-shadow: 2px 2px 11px #000;
+      }
+      > h5 {
+        color: #ffffffc1;
+        text-shadow: 2px 2px 9px #000;
+      }
+    }
+  }
+
+  border-radius: 17px;
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  -ms-border-radius: 17px;
+  -o-border-radius: 17px;
+}

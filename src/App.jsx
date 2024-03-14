@@ -1,26 +1,35 @@
 /* eslint-disable no-unused-vars */
 // React
 import React, { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
-import { useNavigate, Navigate, Route, Routes, Outlet } from "react-router-dom"
+import {
+  useLocation,
+  useNavigate,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom"
 
-// CSS
+// Style
 import "./App.scss"
 import css from "./App.module.scss"
 
-// 網頁標題/描述控件
+// 狀態管理
+import { AppContext } from "./AppContext.js"
+import { useContext } from "react"
+
+// Page Title/Description Control
 import { Helmet } from "react-helmet"
 
 // Icon Library
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 
 // Service Worker
 import { serviceWorkerRegistration } from "./serviceWorkerRegistration"
 import { getRegistration } from "./serviceWorkerRegistration"
 
 // Pages
-import Home from "./pages/Home"
+import Setting from "./pages/SettingView/Setting.jsx"
+import Home from "./pages/Home/Home.jsx"
 import Post from "./pages/Post"
 import Service from "./pages/Service"
 import Development from "./pages/Development"
@@ -28,7 +37,7 @@ import ExSch from "./pages/examSchedule"
 import CourseSchedule from "./pages/CourseSchedule"
 import EnglishAbbreviations from "./pages/englishAbbreviations"
 import OOXXGame from "./pages/ooxx"
-import ReportProblem from "./pages/reportProblem"
+import ReportProblem from "./widgets/ReportProblem/reportProblem.jsx"
 import Updater from "./pages/Updeter"
 import Music from "./pages/music"
 import ChatGroup from "./pages/ChatGroup"
@@ -42,62 +51,39 @@ import ClassRealTimeStatus from "./pages/ClassRealTimeStatus"
 import Photo from "./pages/Photo"
 
 // Tools
-import Articles from "./tools/Articles"
-import Setting from "./tools/Setting"
-import Installation from "./tools/Installation"
-import Chat from "./tools/Chat"
+import Articles from "./pages/Article/Articles.jsx"
 import PhotoPreview from "./tools/photoPreview"
 
 // Local Database
-import { NewUpdatePost } from "./AppData/UpdateData.js"
-import { MenuServiceData, MenuFastLinkData } from "./AppData/AppData.js"
 import { WebVersion } from "./AppData/AppData"
 
 // 自定義函式庫
 import useUrlParams from "./js/UpdateUrlParams"
 
-// firebase
-import firebase from "firebase/app"
-import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
-import {
-  collection,
-  addDoc,
-  getDoc,
-  doc,
-  setDoc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore"
-import { getMessaging, getToken, onMessage } from "firebase/messaging"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { timeout } from "workbox-core/_private"
-import { ColumnSizer } from "react-virtualized"
-import PageTitle from "./widgets/PageTitle"
-
-const deployArea = [""] // /classdata-app
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAevwFPxRd5Fi-UbeTHko_Uradt-hAeBSg",
-  authDomain: "classdata-app.firebaseapp.com",
-  projectId: "classdata-app",
-  storageBucket: "classdata-app.appspot.com",
-  messagingSenderId: "219989250207",
-  appId: "1:219989250207:web:5cef212dc7e1496c6952aa",
-}
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
-const auth = getAuth(app)
+// Firebase
+import { doc, onSnapshot } from "firebase/firestore"
+import Upgrader from "./widgets/Upgrader/Upgrader.jsx"
+import Header from "./widgets/Header/Header.jsx"
 
 // 頁面架構組件
 export default function App() {
-  //// 狀態與初始化 ////
-  const location = useLocation()
-  const [user, setUser] = useState(null)
-  const [OperationalStatus, setOperationalStatus] = useState("No Status")
+  // 狀態與初始化
+  const {
+    user,
+    db,
+    pageSelectTabs,
+    setPageSelectTabs,
+    setGlobalLocation,
+    globalError,
+    setGlobalError,
+    globalErrorIcon,
+    setGlobalErrorIcon,
+  } = useContext(AppContext)
+
   const [settingPage, setSettingPage] = useState(false)
   const [menuActive, setMenuActive] = useState(false)
   const [reportProblemActive, setReportProblemActive] = useState(false)
+
   const [courSchType, setCourSchType] = useState()
   const courSchTypeChange = (type) => {
     setCourSchType(type)
@@ -124,10 +110,11 @@ export default function App() {
     { path: "/secretPage/music", pageName: "音樂" },
     { path: "/secretPage/classroomStatus", pageName: "班級即時狀態" },
     { path: "/photo", pageName: "相片" },
+    { path: "/articles", pageName: "文章" },
   ]
   const [pageTabs, setPageTabs] = useState()
   const [updateAvailable, setUpdateAvailable] = useState(false)
-  const [cancelUpdateBtn, setCancelUpdateBtn] = useState(false)
+  const [cancelUpdateBt, setCancelUpdateBtn] = useState(false)
   const [getPostData, setGetPostData] = useState(null)
   const [postCount, setPostCount] = useState()
   const [postNoti, setPostNoti] = useState(
@@ -136,18 +123,26 @@ export default function App() {
       : 0
   )
 
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setGlobalLocation(location)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
+
   // 設定特定頁面的 Tab 選項
   useEffect(() => {
     if (location.pathname === "/service/courseSchedule") {
-      setPageTabs({
+      setPageSelectTabs({
         isDark: theme === "dark",
         onTop: true,
         options: ["資訊科", "電子科", "電機科"],
         onChange: (value) => courSchTypeChange(value),
         selected: courSchType,
       })
-    } else setPageTabs()
-  }, [location, courSchType, theme])
+    } else setPageSelectTabs()
+  }, [location, courSchType, theme, setPageSelectTabs])
 
   /**
    * 將 location path 尋找資料庫對應的頁面名稱
@@ -162,12 +157,13 @@ export default function App() {
     }
     return null
   }
+
   // Service Worker 自動檢查更新
   useEffect(() => {
     const intervalId = setInterval(() => {
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-          .register(`${deployArea}/service-worker.js`)
+          .register(`/service-worker.js`)
           .then((registration) => {
             registration.update()
             // console.log(
@@ -204,7 +200,7 @@ export default function App() {
             // console.log("ServiceWorker 註冊失敗：", error)
           })
       }
-    }, 2500)
+    }, 10000)
 
     return () => clearInterval(intervalId)
   }, [])
@@ -219,20 +215,6 @@ export default function App() {
       window.location.reload(true)
     }
   }
-
-  // 重整頁面
-  function reload() {
-    window.location.reload(true)
-  }
-
-  // 獲取用戶身份
-  // 更新用戶登入資訊
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user)
-    })
-    return unsubscribe
-  }, [])
 
   // 公告通知角標
   useEffect(() => {
@@ -256,6 +238,7 @@ export default function App() {
     })
 
     return () => unsubscribe()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // 設備狀態
@@ -263,7 +246,7 @@ export default function App() {
   // 特殊狀態
 
   // 頁面跳轉
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const navigateClick = (page) => {
     navigate(page)
     setMenuActive(false)
@@ -351,42 +334,22 @@ export default function App() {
       return
     }
     if (themeMode === 1) {
-      // setTheme("dark")
-      setTheme("")
-      // htmlRef.classList.add("dark")
       htmlRef.classList.remove("dark")
-
-      // setThemeMode(2)
       setThemeMode(0)
-
-      // setSpecialTheme(2)
-      setSpecialTheme(0)
-
-      // setModeValue("深色模式")
       setModeValue("淺色模式")
-      setThemeInfo("Dark Mode")
     } else if (themeMode === 2) {
-      setTheme("")
       htmlRef.classList.remove("dark")
       setThemeMode(0)
-      setSpecialTheme(0)
       setModeValue("淺色模式")
-      setThemeInfo("Light Mode")
     } else if (themeMode === 0) {
-      // setThemeMode(1)
       setThemeMode(0)
-
-      // setSpecialTheme(1)
-      setSpecialTheme(0)
-
-      // setModeValue("根據系統")
       setModeValue("淺色模式")
     }
 
-    setGlobalError("深色模式暫時停用")
-    setGlobalErrorIcon(
-      <FontAwesomeIcon icon="fa-solid fa-circle-half-stroke" />
-    )
+    // setGlobalError("深色模式暫時停用")
+    // setGlobalErrorIcon(
+    //   <FontAwesomeIcon icon="fa-solid fa-circle-half-stroke" />
+    // )
   }
 
   const [specialTheme, setSpecialTheme] = useState(themeMode)
@@ -401,25 +364,25 @@ export default function App() {
   // 偵測是否在頁面頂部
   const [isTop, setIsTop] = useState(true)
   let lastIsTop = true
-  useEffect(() => {
-    setTimeout(() => {
-      const container = document.querySelector("main")
-      const handleScroll = () => {
-        const scrollTop = container.scrollTop
-        const newIsTop = scrollTop <= 30 // 改為檢查是否距離頂部小於等於50px
-        if (newIsTop !== lastIsTop && location.pathname === "/") {
-          setIsTop(newIsTop)
-          lastIsTop = newIsTop
-        }
-      }
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const container = document.querySelector("main")
+  //     const handleScroll = () => {
+  //       const scrollTop = container.scrollTop
+  //       const newIsTop = scrollTop <= 30 // 改為檢查是否距離頂部小於等於50px
+  //       if (newIsTop !== lastIsTop && location.pathname === "/") {
+  //         setIsTop(newIsTop)
+  //         lastIsTop = newIsTop
+  //       }
+  //     }
 
-      container.addEventListener("scroll", handleScroll)
+  //     container.addEventListener("scroll", handleScroll)
 
-      return () => {
-        container.removeEventListener("scroll", handleScroll)
-      }
-    }, 0)
-  }, [location])
+  //     return () => {
+  //       container.removeEventListener("scroll", handleScroll)
+  //     }
+  //   }, 0)
+  // }, [location])
 
   // 版權標示
   // useEffect(() => {
@@ -523,8 +486,6 @@ export default function App() {
   }, [youtubeUrl, location])
 
   // 全局提示彈窗
-  const [globalError, setGlobalError] = useState("")
-  const [globalErrorIcon, setGlobalErrorIcon] = useState()
   useEffect(() => {
     if (globalError) {
       setTimeout(() => {
@@ -545,156 +506,13 @@ export default function App() {
         <meta property="og:title" content="班級資訊平台" />
         <meta property="og:description" content="學校、班級的最新資訊" />
       </Helmet>
-      <header
-        className={`${css.nav}${settingPage ? ` ${css._settingOpen}` : ""}${
-          checkLocation(["/"]) ? ` ${css._atHome}` : ""
-        }${isTop && !menuActive ? ` ${css._scrollTop}` : ""}`}>
-        <div
-          id="header"
-          className={`${css.container}${menuActive ? "open" : ""}`}>
-          <ul className={css.header_ul}>
-            {checkLocation([
-              "/",
-              "/post",
-              "/service",
-              "/chats",
-              "/user",
-              "/service/docLink",
-            ]) ? (
-              <>
-                <li className={css.header_li}>
-                  <div
-                    className={`${css.block}${
-                      checkLocation(["/"]) ? ` ${css.actv}` : ""
-                    }`}>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-school"
-                      className="icon"
-                      onClick={() => navigateClick("/")}
-                      alt="班級資訊平台icon"
-                      title="[重新整理] 班級資訊平台icon"
-                    />
-                  </div>
-                  <div className={css.block}>
-                    <span
-                      title={`當前版本：${WebVersion[0].version}`}
-                      onClick={() => [navigateClick("/webUpdate")]}>
-                      v{WebVersion[0].version}
-                    </span>
-                  </div>
-                </li>
-                <li className={css.header_li}>
-                  <div
-                    className={`${css.block}${
-                      checkLocation(["/"]) ? ` ${css.actv}` : ""
-                    }`}
-                    onClick={() => navigateClick("/")}>
-                    <p>首頁</p>
-                  </div>
-                  <div
-                    className={`${css.block}${
-                      checkLocation(["/post"]) ? ` ${css.actv}` : ""
-                    }`}
-                    onClick={() => navigateClick("/post")}>
-                    <p>公告</p>
-                    {/* {postCount && postCount - postNoti > 0 ? (
-                      <span className={`postNoti`}>{postCount - postNoti}</span>
-                    ) : (
-                      ''
-                    )} */}
-                  </div>
-                  <div
-                    className={`${css.block}${
-                      checkLocation(["/service", "/service/docLink"])
-                        ? ` ${css.actv}`
-                        : ""
-                    }`}
-                    onClick={() => navigateClick("/service")}>
-                    <p>服務</p>
-                  </div>
-                  <div
-                    className={`${css.block}${
-                      checkLocation(["/chats"]) ? ` ${css.actv}` : ""
-                    }`}
-                    onClick={() => navigateClick("/chats")}>
-                    <p>聊天</p>
-                  </div>
-                </li>
-                <li className={css.header_li}>
-                  {/* <div
-                    className={css.block}
-                    onClick={() => [navigateClick('/post')]}>
-                    <FontAwesomeIcon icon="fa-solid fa-bell" />
-                  </div> */}
-                  <div
-                    className={css.block}
-                    onClick={() => setSettingPage(true)}>
-                    <FontAwesomeIcon icon="fa-solid fa-gear" />
-                  </div>
-                  <div
-                    className={`${css.block}${` ${css.breach}`}${
-                      checkLocation(["/user"]) ? ` ${css.actv}` : ""
-                    }`}
-                    onClick={() => navigateClick("/user")}>
-                    <div className={css.user}>
-                      {user ? (
-                        <>
-                          <img src={user.photoURL} alt="" />
-                          <span>{user.displayName}</span>
-                        </>
-                      ) : (
-                        <>
-                          <img
-                            src={`${process.env.PUBLIC_URL}/images/icons/user.png`}
-                            alt="前往登入"></img>
-                          <span>前往登入</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </li>
-              </>
-            ) : (
-              <PageTitle
-                isDark={theme === "dark"}
-                location={location}
-                checkLocation={checkLocation}
-                checkPageName={checkPageName}
-                tabs={pageTabs}
-              />
-            )}
-          </ul>
-        </div>
-      </header>
-      <menu
-        id="menu"
-        className={`${theme}${theme && settingPage ? " " : ""}${
-          settingPage ? "settingOpen" : ""
-        } ${menuActive ? "open" : ""}`}>
-        <div id="menu-view" className={`${menuActive ? "show" : ""}`}>
-          <div id="menu-block" className="menu-block">
-            <span className={`${menuActive ? "" : "opacity-0"}`}>捷徑</span>
-            <ul id="menu-linkView">
-              {MenuFastLinkData.map((MenuFastLinkData, index) => (
-                <li
-                  className={`menu-link ${MenuFastLinkData.class} ${
-                    menuActive ? "" : "close"
-                  }`}
-                  style={{ backgroundImage: MenuFastLinkData.style }}
-                  onClick={() => {
-                    window.open(`${MenuFastLinkData.link}`)
-                  }}
-                  key={index}>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/icons/${MenuFastLinkData.icon}`}
-                    alt={MenuFastLinkData.name}></img>
-                  <h1>{MenuFastLinkData.name}</h1>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </menu>
+
+      <Header
+        checkLocation={checkLocation}
+        navigateClick={navigateClick}
+        selectTabs={pageTabs}
+      />
+
       <footer
         className={`${theme}${theme && settingPage ? " " : ""}${
           settingPage ? "settingOpen" : ""
@@ -796,23 +614,6 @@ export default function App() {
                 <span>訊息</span>
               </div>
             </li>
-            {/* <li
-              id="footer-li"
-              className=""
-              onClick={() => [navigateClick('/user')]}
-              style={{ background: checkLocation(['/']) ? '#ffffff00' : '' }}>
-              <div
-                className={`li-view development ${
-                  checkLocation(['/user']) ? 'active' : ''
-                }`}>
-                {checkLocation(['/user']) ? (
-                  <FontAwesomeIcon icon="fa-solid fa-user" />
-                ) : (
-                  <FontAwesomeIcon icon="fa-solid fa-user" />
-                )}
-                <span>我的</span>
-              </div>
-            </li> */}
             <li
               id="footer-li"
               className="menuicon"
@@ -825,261 +626,115 @@ export default function App() {
           </ul>
         </div>
       </footer>
-      {/* <div id="RNav" className={theme}>
-        <div>
-          <div id="RNavHeader">
-            <FontAwesomeIcon
-              icon="fa-solid fa-school"
-              className="icon"
-              onClick={reload}
-              alt="班級資訊平台icon"
-              title="[重新整理] 班級資訊平台icon"
-            />
-            <span
-              title={`當前版本：${WebVersion[0].version}`}
-              onClick={() => [navigateClick("/webUpdate")]}>
-              {WebVersion[0].version ? (
-                WebVersion[0].version
-              ) : (
-                <FontAwesomeIcon icon="fa-solid fa-spinner" spinPulse />
-              )}
-            </span>
-          </div>
-          <div id="RNavTarget">
-            <ul id="RNav-ul">
-              <li id="RNav-li" onClick={() => [navigateClick("/")]}>
-                <div
-                  className={`RNav-li-block ${
-                    checkLocation(["/"]) ? "active" : ""
-                  }`}>
-                  {checkLocation(["/"]) ? (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-house"
-                      className="icon"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-house"
-                      className="icon"
-                    />
-                  )}
-                  <span>首頁</span>
-                </div>
-              </li>
-              <li id="RNav-li" onClick={() => [navigateClick("/post")]}>
-                <div
-                  className={`RNav-li-block ${
-                    checkLocation(["/post"]) ? "active" : ""
-                  }`}>
-                  {checkLocation(["/post"]) ? (
-                    <FontAwesomeIcon icon="fa-solid fa-bell" className="icon" />
-                  ) : (
-                    <FontAwesomeIcon icon="fa-solid fa-bell" className="icon" />
-                  )}
-                  <span>公告</span>
-                </div>
-                {postCount && postCount - postNoti > 0 ? (
-                  <span className={`postNoti`}>{postCount - postNoti}</span>
-                ) : (
-                  ""
-                )}
-              </li>
-              <li id="RNav-li" onClick={() => [navigateClick("/service")]}>
-                <div
-                  className={`RNav-li-block ${
-                    checkLocation([
-                      "/service",
-                      "/service/courseSchedule",
-                      "/service/examSchedule",
-                      "/service/youtube-player",
-                    ])
-                      ? "active"
-                      : ""
-                  }`}>
-                  {checkLocation(["/service"]) ? (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-shapes"
-                      className="icon"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-shapes"
-                      className="icon"
-                    />
-                  )}
-                  <span>服務</span>
-                </div>
-              </li>
-              <li
-                id="RNav-li"
-                className="chatGroup"
-                onClick={() => [navigateClick("/chats")]}>
-                <div
-                  className={`RNav-li-block ${
-                    checkLocation(["/chats"]) ? "active" : ""
-                  }`}>
-                  {checkLocation(["/chats"]) ? (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-comments"
-                      className="icon"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-comments"
-                      className="icon"
-                    />
-                  )}
-                  <span>訊息</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div id="RNavBottom">
-          <div
-            id="RNav-li"
-            className={`RNav-li-block userPage ${
-              checkLocation(["/user"]) ? "active" : ""
-            }`}
-            onClick={() => [navigateClick("/user")]}>
-            <img
-              className="userIMG"
-              src={
-                user
-                  ? user.photoURL
-                  : `${process.env.PUBLIC_URL}/images/icons/user.png`
-              }
-              title={user ? user.displayName : "未登入"}
-              alt={user ? user.displayName : "未登入"}></img>
-          </div>
-          <div
-            id="RNav-li"
-            className={`RNav-li-block ${menuActive ? "active" : ""}`}
-            onClick={
-              !menuActive && settingPage
-                ? () => {
-                    setSettingPage(!settingPage)
-                    menuBtnClick()
-                  }
-                : menuBtnClick
+
+      <main>
+        <Routes>
+          {/* Setting */}
+          <Route path="/settings" element={<Setting />} />
+          <Route path="/articles" element={<Articles />} />
+          {/* home */}
+          <Route path="/" element={<Home navigateClick={navigateClick} />} />
+
+          {/* post */}
+          <Route
+            path="/post"
+            element={
+              <Post
+                theme={theme}
+                settingPage={settingPage}
+                setPostNoti={setPostNoti}
+              />
+            }></Route>
+
+          {/* service */}
+          <Route
+            path="/service"
+            element={
+              <Service
+                theme={theme}
+                settingPage={settingPage}
+                setDocUrl={setDocUrl}
+                openDoc={openDoc}
+                navigateClick={navigateClick}
+              />
             }>
-            <FontAwesomeIcon icon="fa-solid fa-bars" />
-          </div>
-          <div
-            id="RNav-li"
-            className={`settingIcon ${settingPage ? "active" : ""}`}
-            onClick={
-              menuActive && !settingPage
-                ? () => {
-                    setSettingPage(!settingPage)
-                    menuBtnClick()
-                  }
-                : () => setSettingPage(!settingPage)
+            <Route
+              path="courseSchedule"
+              element={
+                <CourseSchedule
+                  courSchType={courSchType}
+                  setCourSchType={setCourSchType}
+                  navigateClick={navigateClick}
+                  TipsActive={TipsActive}
+                  Tips={Tips}
+                  theme={theme}
+                  settingPage={settingPage}
+                />
+              }></Route>
+            <Route
+              path="examSchedule"
+              element={
+                <ExSch
+                  theme={theme}
+                  settingPage={settingPage}
+                  navigateClick={navigateClick}
+                />
+              }></Route>
+            <Route
+              path="youtube-player"
+              element={
+                <YouTubePlayer
+                  theme={theme}
+                  setTheme={setTheme}
+                  themeMode={themeMode}
+                  navigateClick={navigateClick}
+                  setThemeMode={setThemeMode}
+                  setSpecialTheme={setSpecialTheme}
+                  settingPage={settingPage}
+                  setGlobalError={setGlobalError}
+                  setGlobalErrorIcon={setGlobalErrorIcon}
+                  youtubeUrl={youtubeUrl}
+                  setYoutubeUrl={setYoutubeUrl}
+                  openYoutubeUrl={openYoutubeUrl}
+                />
+              }></Route>
+            <Route
+              path="docLink"
+              element={
+                <DocLink
+                  theme={theme}
+                  settingPage={settingPage}
+                  docUrl={docUrl}
+                  navigateClick={navigateClick}></DocLink>
+              }></Route>
+          </Route>
+
+          {/* chatGroup */}
+          <Route
+            path="/chats"
+            element={
+              <Chats
+                theme={theme}
+                navigateClick={navigateClick}
+                checkLocation={checkLocation}
+              />
             }>
-            <FontAwesomeIcon icon="fa-solid fa-gear" />
-          </div>
-        </div>
-      </div> */}
-      <Routes>
-        {/* home */}
-        <Route
-          path="/"
-          element={
-            <Home
-              theme={theme}
-              settingPage={settingPage}
-              isTop={isTop}
-              openPost={openPost}
-            />
-          }
-        />
-
-        {/* post */}
-        <Route
-          path="/post"
-          element={
-            <Post
-              theme={theme}
-              settingPage={settingPage}
-              setPostNoti={setPostNoti}
-            />
-          }></Route>
-
-        {/* service */}
-        <Route
-          path="/service"
-          element={
-            <Service
-              theme={theme}
-              settingPage={settingPage}
-              setDocUrl={setDocUrl}
-              openDoc={openDoc}
-              navigateClick={navigateClick}
-            />
-          }>
+            <Route
+              path="chat-group"
+              element={
+                <ChatGroup
+                  theme={theme}
+                  settingPage={settingPage}
+                  setPhotoPreviewUrl={setPhotoPreviewUrl}
+                  navigateClick={navigateClick}
+                  setGlobalError={setGlobalError}
+                  setGlobalErrorIcon={setGlobalErrorIcon}
+                />
+              }></Route>
+            <Route path="chatroom" element={<Chatroom />} />
+          </Route>
           <Route
-            path="courseSchedule"
-            element={
-              <CourseSchedule
-                courSchType={courSchType}
-                setCourSchType={setCourSchType}
-                navigateClick={navigateClick}
-                TipsActive={TipsActive}
-                Tips={Tips}
-                theme={theme}
-                settingPage={settingPage}
-              />
-            }></Route>
-          <Route
-            path="examSchedule"
-            element={
-              <ExSch
-                theme={theme}
-                settingPage={settingPage}
-                navigateClick={navigateClick}
-              />
-            }></Route>
-          <Route
-            path="youtube-player"
-            element={
-              <YouTubePlayer
-                theme={theme}
-                setTheme={setTheme}
-                themeMode={themeMode}
-                navigateClick={navigateClick}
-                setThemeMode={setThemeMode}
-                setSpecialTheme={setSpecialTheme}
-                settingPage={settingPage}
-                setGlobalError={setGlobalError}
-                setGlobalErrorIcon={setGlobalErrorIcon}
-                youtubeUrl={youtubeUrl}
-                setYoutubeUrl={setYoutubeUrl}
-                openYoutubeUrl={openYoutubeUrl}
-              />
-            }></Route>
-          <Route
-            path="docLink"
-            element={
-              <DocLink
-                theme={theme}
-                settingPage={settingPage}
-                docUrl={docUrl}
-                navigateClick={navigateClick}></DocLink>
-            }></Route>
-        </Route>
-
-        {/* chatGroup */}
-        <Route
-          path="/chats"
-          element={
-            <Chats
-              theme={theme}
-              navigateClick={navigateClick}
-              checkLocation={checkLocation}
-            />
-          }>
-          <Route
-            path="chat-group"
+            path="/chat-group"
             element={
               <ChatGroup
                 theme={theme}
@@ -1090,93 +745,70 @@ export default function App() {
                 setGlobalErrorIcon={setGlobalErrorIcon}
               />
             }></Route>
-          <Route path="chatroom" element={<Chatroom />} />
-        </Route>
-        <Route
-          path="/chat-group"
-          element={
-            <ChatGroup
-              theme={theme}
-              settingPage={settingPage}
-              setPhotoPreviewUrl={setPhotoPreviewUrl}
-              navigateClick={navigateClick}
-              setGlobalError={setGlobalError}
-              setGlobalErrorIcon={setGlobalErrorIcon}
-            />
-          }></Route>
-        <Route
-          path="/development"
-          element={
-            <Development
-              OperationalStatus={OperationalStatus}
-              theme={theme}
-              themeInfo={themeInfo}
-              settingPage={settingPage}
-              readArticle={readArticle}
-            />
-          }></Route>
-
-        {/* user */}
-        <Route
-          path="/user"
-          element={<User theme={theme} settingPage={settingPage} />}></Route>
-
-        <Route path="/photo" element={<Photo />}></Route>
-
-        <Route
-          path="/webUpdate"
-          element={
-            <WebUpdate
-              navigateClick={navigateClick}
-              theme={theme}
-              settingPage={settingPage}
-              handleUpdate={handleUpdate}
-              updateAvailable={updateAvailable}
-            />
-          }></Route>
-        <Route path="/secretPage" element={<Outlet />}>
           <Route
-            path="updater"
-            element={<Updater theme={theme} settingPage={settingPage} />}
-          />
-          <Route
-            path="classroomStatus"
+            path="/development"
             element={
-              <ClassRealTimeStatus theme={theme} settingPage={settingPage} />
-            }
-          />
-          <Route
-            path="classRealtimeStatus"
-            element={
-              <ClassRealTimeStatus theme={theme} settingPage={settingPage} />
-            }
-          />
-          <Route
-            path="ox"
-            element={<OOXXGame theme={theme} settingPage={settingPage} />}
-          />
-          <Route
-            path="english"
-            element={
-              <EnglishAbbreviations theme={theme} settingPage={settingPage} />
-            }
-          />
-          <Route
-            path="music"
-            element={<Music theme={theme} settingPage={settingPage} />}></Route>
-        </Route>
-      </Routes>
+              <Development
+                theme={theme}
+                themeInfo={themeInfo}
+                settingPage={settingPage}
+                readArticle={readArticle}
+              />
+            }></Route>
 
-      <Setting
-        navigateClick={navigateClick}
-        settingPage={settingPage}
-        setSettingPage={setSettingPage}
-        menuActive={menuActive}
-        modeValue={modeValue}
-        theme={theme}
-        handleThemeChange={handleThemeChange}
-        setReportProblemActive={setReportProblemActive}
-      />
+          {/* user */}
+          <Route
+            path="/user"
+            element={<User theme={theme} settingPage={settingPage} />}></Route>
+
+          <Route path="/photo" element={<Photo />}></Route>
+
+          <Route
+            path="/webUpdate"
+            element={
+              <WebUpdate
+                navigateClick={navigateClick}
+                theme={theme}
+                settingPage={settingPage}
+                handleUpdate={handleUpdate}
+                updateAvailable={updateAvailable}
+              />
+            }></Route>
+          <Route path="/secretPage" element={<Outlet />}>
+            <Route
+              path="updater"
+              element={<Updater theme={theme} settingPage={settingPage} />}
+            />
+            <Route
+              path="classroomStatus"
+              element={
+                <ClassRealTimeStatus theme={theme} settingPage={settingPage} />
+              }
+            />
+            <Route
+              path="classRealtimeStatus"
+              element={
+                <ClassRealTimeStatus theme={theme} settingPage={settingPage} />
+              }
+            />
+            <Route
+              path="ox"
+              element={<OOXXGame theme={theme} settingPage={settingPage} />}
+            />
+            <Route
+              path="english"
+              element={
+                <EnglishAbbreviations theme={theme} settingPage={settingPage} />
+              }
+            />
+            <Route
+              path="music"
+              element={
+                <Music theme={theme} settingPage={settingPage} />
+              }></Route>
+          </Route>
+        </Routes>
+      </main>
 
       <ReportProblem
         theme={theme}
@@ -1185,48 +817,18 @@ export default function App() {
       />
 
       {/* Other Pages */}
-      <Installation setOperationalStatus={setOperationalStatus} />
       {checkLocation(["/service/music"]) && (
         <Music theme={theme} settingPage={settingPage} />
       )}
       {updateAvailable && (
-        <div
-          id="update"
-          className={`${cancelUpdateBtn ? "small" : ""}`}
-          onClick={
-            cancelUpdateBtn ? () => setCancelUpdateBtn(false) : () => {}
-          }>
-          <div className="updateContent">
-            <div>
-              <FontAwesomeIcon icon="fa-solid fa-circle-up" />
-            </div>
-            <p>檢測到更新！</p>
-          </div>
-          <div>
-            <button
-              className="updateContentBtn"
-              onClick={() => navigateClick("/webUpdate")}>
-              <p>更新內容</p>
-            </button>
-            <button
-              className="cancelUpdateBtn"
-              onClick={() => setCancelUpdateBtn(true)}>
-              <p>稍後</p>
-            </button>
-            <button className="updateBtn" onClick={handleUpdate}>
-              <p>更新</p>
-            </button>
-          </div>
-        </div>
+        <Upgrader
+          isSkip={cancelUpdateBt}
+          setSkip={setCancelUpdateBtn}
+          handleUpdate={handleUpdate}
+          navigateClick={navigateClick}
+        />
       )}
-      {/* <Chat /> */}
-      {/* {checkLocation(['/english']) && (
-        <EnglishAbbreviations theme={theme} settingPage={settingPage} />
-      )} */}
-      {/* {checkLocation(['/secretPage/ox']) && (
-        <OOXXGame theme={theme} settingPage={settingPage} />
-      )} */}
-      {postActive && (
+      {/* {postActive && (
         <Articles
           theme={theme}
           openPost={openPost}
@@ -1235,7 +837,7 @@ export default function App() {
           setPostActive={setPostActive}
           setReadArticle={setReadArticle}
         />
-      )}
+      )} */}
       <PhotoPreview
         theme={theme}
         photoPreviewUrl={photoPreviewUrl}

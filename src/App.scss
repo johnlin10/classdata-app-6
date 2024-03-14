@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "App_dark.scss";
+// @import "App_dark.scss";
 
 /* === Universal Setting ========================================== */
 * {
@@ -13,7 +13,7 @@ body {
   display: flex;
   font-size: 16px;
   color: #333;
-  background: #0f0f0f;
+  background: var(--white);
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -26,7 +26,7 @@ body {
     left: 0;
     height: 35px;
     padding: 6px 9px;
-    background-color: var(--theme-light);
+    background-color: var(--lightGray);
     opacity: 0;
     user-select: none;
     pointer-events: none;
@@ -101,57 +101,6 @@ a:visited {
   width: 100%;
 }
 
-.target-fix {
-  position: relative;
-  top: -30px;
-  display: block;
-  height: 0;
-  overflow: hidden;
-}
-
-#Tips {
-  z-index: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: calc(100% - 24px);
-  max-width: 480px;
-  min-width: calc(264px - 24px);
-  bottom: calc(68px + 12px);
-  padding: 0.7rem 0.7rem 0.7rem 0.9rem;
-  background: #cdcdcdb1;
-  margin-left: 12px;
-  box-shadow: 0 3px 20px 0 #ffffff;
-  border-radius: 0.8rem;
-  -webkit-border-radius: 0.8rem;
-  -moz-border-radius: 0.8rem;
-  -ms-border-radius: 0.8rem;
-  -o-border-radius: 0.8rem;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-}
-.dark #Tips {
-  background: #3636369a;
-  box-shadow: 0 3px 20px 0 #000;
-}
-/* 提示區塊 */
-#Tips div span {
-  color: #3c3c3c;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-}
-.dark #Tips div span {
-  color: #e1e1e1;
-}
 #closeBtn {
   display: flex;
   justify-content: center;
@@ -291,350 +240,6 @@ a:visited {
   }
 }
 
-/* 安裝提示 */
-#pwaInstallTips {
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: #1c1c1caf;
-  overflow: scroll;
-  transition: 1s;
-  -webkit-transition: 1s;
-  -moz-transition: 1s;
-  -ms-transition: 1s;
-  -o-transition: 1s;
-  scroll-snap-type: y mandatory;
-}
-.InstallTips {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 100px;
-  width: 100%;
-  height: 100vh;
-  min-height: 100vh;
-  scroll-snap-align: start;
-  transition: 2s;
-  -webkit-transition: 2s;
-  -moz-transition: 2s;
-  -ms-transition: 2s;
-  -o-transition: 2s;
-}
-.InstallTips > h1 {
-  max-width: 400px;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #ffffffcf;
-}
-.InstallTips > h1 > span {
-  white-space: nowrap;
-}
-.btnBlock {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-.btnBlock > h5 {
-  color: #09658fa8;
-}
-.btnBlock span {
-  margin-top: 1rem;
-  margin-bottom: 3rem;
-  color: #ffffffaf;
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-.startInstall {
-  display: flex;
-  justify-content: center;
-  font-size: 1.5rem;
-  width: 12rem;
-  padding: 12px 18px;
-  background: linear-gradient(160deg, #095e8fa8, #098f6ba8);
-  border-radius: calc(0.75rem + 6px);
-  -webkit-border-radius: calc(0.75rem + 6px);
-  -moz-border-radius: calc(0.75rem + 6px);
-  -ms-border-radius: calc(0.75rem + 6px);
-  -o-border-radius: calc(0.75rem + 6px);
-  font-weight: 700;
-  color: #ffffffcf;
-  box-shadow: 0 0 30px -5px #ffffff5f;
-}
-.refuseInstall {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  width: 12rem;
-  font-size: 1rem;
-  padding: 12px 18px;
-  border-radius: 23px;
-  -webkit-border-radius: 23px;
-  -moz-border-radius: 23px;
-  -ms-border-radius: 23px;
-  -o-border-radius: 23px;
-  font-weight: 500;
-  color: #7f7f7f;
-}
-
-#InstallationGuide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  min-height: 100vh;
-  width: 100%;
-  padding: 100px 50px;
-  scroll-snap-align: start;
-}
-.GuideTitle {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: 720px;
-}
-#InstallationGuide .GuideTitle h2 {
-  color: #fff;
-}
-#InstallationGuide .GuideTitle span {
-  color: #c1c1c1;
-}
-
-/* 安裝引導步驟img */
-/* macos */
-.macosChromeGuideIMG-1 {
-  position: absolute;
-  height: auto;
-  width: 350px;
-  right: 0;
-  top: 100vh;
-  scroll-snap-align: start;
-}
-.macosChromeGuideIMG-2 {
-  position: absolute;
-  height: auto;
-  width: 550px;
-  left: calc(50% - 275px);
-  top: calc(100vh + 400px);
-  scroll-snap-align: start;
-}
-.macosChromeGuideIMG-3 {
-  position: absolute;
-  height: auto;
-  width: 550px;
-  left: calc(50% - 275px);
-  top: calc(100vh + 892.85px);
-  scroll-snap-align: start;
-}
-
-/* ios */
-.iosSafariGuideIMG-1 {
-  position: absolute;
-  height: auto;
-  width: 375px;
-  left: calc(50% - 187.5px);
-  top: calc(100vh + (100vh - 400px));
-  scroll-snap-align: start;
-}
-.iosSafariGuideIMG-2 {
-  position: absolute;
-  height: auto;
-  width: 375px;
-  left: calc(50% - 187.5px);
-  top: calc(200vh);
-  padding: 50px 0;
-  scroll-snap-align: start;
-}
-.iosSafariGuideIMG-3 {
-  position: absolute;
-  height: auto;
-  width: 375px;
-  left: calc(50% - 187.5px);
-  top: calc(200vh + 367.85px);
-  scroll-snap-align: start;
-  padding-top: 50px;
-  padding-bottom: 150px;
-}
-
-/* 網頁更新提示 */
-#update {
-  z-index: 9999;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  height: 60px;
-  width: calc(100% - 24px);
-  max-width: 480px;
-  min-width: calc(264px - 24px);
-  bottom: calc(80px + 12px);
-  padding: 0.7rem 0.7rem 0.7rem 0.9rem;
-  background: #e53232df;
-  margin-left: 12px;
-  box-shadow: 0 3px 20px 0 #751a1aa7;
-  border-radius: 17px;
-  -webkit-border-radius: 17px;
-  -moz-border-radius: 17px;
-  -ms-border-radius: 17px;
-  -o-border-radius: 17px;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-}
-#update.small {
-  padding: 12px;
-  bottom: calc(92px + 42px + 12px);
-  width: 42px;
-  max-width: 42px;
-  min-width: 42px;
-  height: 42px;
-  overflow: hidden;
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -o-border-radius: 21px;
-}
-#update > div {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-@media (min-width: 823px) {
-  #update {
-    bottom: 12px;
-    margin-left: calc(12px + 72px);
-  }
-  #update.small {
-    bottom: 78px;
-  }
-}
-@media (min-width: 991px) {
-  #update {
-    margin-left: calc(12px + 124px);
-  }
-}
-#update.small .updateContent p {
-  opacity: 0;
-}
-.updateContent > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 6px;
-  font-size: 1.1rem;
-  color: #fff;
-}
-#update.small > .updateContent > div {
-  padding: 0;
-}
-.updateContent p {
-  display: flex;
-  align-items: center;
-  color: #efc5c5;
-  font-size: 1rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.updateBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 100%;
-  width: auto;
-  padding: 0 12px;
-  margin-left: 3px;
-  background: #ffffff7f;
-  border-radius: 9px;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
-  -ms-border-radius: 9px;
-  -o-border-radius: 9px;
-  transition: 0.25s;
-  -webkit-transition: 0.25s;
-  -moz-transition: 0.25s;
-  -ms-transition: 0.25s;
-  -o-transition: 0.25s;
-}
-.updateBtn p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: max-content;
-  color: #aa2222df;
-  font-size: 0.9rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.cancelUpdateBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 100%;
-  width: auto;
-  padding: 0 12px;
-  margin-left: 3px;
-  background: #0000002f;
-  border-radius: 9px;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
-  -ms-border-radius: 9px;
-  -o-border-radius: 9px;
-  transition: 0.25s;
-  -webkit-transition: 0.25s;
-  -moz-transition: 0.25s;
-  -ms-transition: 0.25s;
-  -o-transition: 0.25s;
-}
-.cancelUpdateBtn p {
-  color: #ffffff5f;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.updateContentBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 100%;
-  width: auto;
-  padding: 0 12px;
-  margin-left: 3px;
-  background: #ffffff00;
-  border-radius: 0.4rem;
-  -webkit-border-radius: 0.4rem;
-  -moz-border-radius: 0.4rem;
-  -ms-border-radius: 0.4rem;
-  -o-border-radius: 0.4rem;
-  transition: 0.25s;
-  -webkit-transition: 0.25s;
-  -moz-transition: 0.25s;
-  -ms-transition: 0.25s;
-  -o-transition: 0.25s;
-}
-.updateContentBtn p {
-  color: #ffffff9f;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-.updateContentBtn:hover p {
-  border-bottom: 1px solid #ffffff7f;
-}
-
 #globalError {
   z-index: 9000;
   display: flex;
@@ -664,8 +269,11 @@ a:visited {
 }
 
 /* === Universal Background Setting ========================================== */
+.backgroundBlur {
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
 @supports ((-webkit-backdrop-filter: initial) or (backdrop-filter: initial)) {
-  #Tips,
   #update,
   #globalError,
   #pwaInstallTips,
@@ -675,19 +283,9 @@ a:visited {
   #youTubePlayerView .error,
   .chatGroupForm .dropMask,
   #favoriteView button.copyUrl,
-  .homeTopSpc .moreBtn,
   #courSchType {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
-  }
-}
-@media (max-width: 1080px) {
-  @supports ((-webkit-backdrop-filter: initial) or (backdrop-filter: initial)) {
-    .homeTopSpc > h1,
-    .homeTopSpc > p {
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      backdrop-filter: saturate(180%) blur(20px);
-    }
   }
 }
 
@@ -799,7 +397,7 @@ main {
   right: 0;
   bottom: 48px;
   overflow-y: scroll;
-  background: var(--theme-light);
+  background: var(--white);
   padding: 60px 0 12px 0;
   opacity: 1;
   transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
@@ -816,7 +414,7 @@ main {
   }
 
   @media (min-width: 823px) {
-    background: var(--theme-light);
+    background: var(--white);
   }
 
   &::-webkit-scrollbar {
@@ -2070,145 +1668,6 @@ main {
   }
   #home-view-content > img {
     width: 100%;
-  }
-  #home-view .topBg {
-    position: relative;
-    margin-top: 0;
-    width: 112%;
-    /* max-width: 480px; */
-  }
-  #home-view .topBg::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 54px;
-    background: linear-gradient(0deg, #ffffff00, var(--main-light));
-  }
-  .dark #home-view .topBg::after {
-    background: linear-gradient(0deg, #00000000, var(--main-dark));
-  }
-  @media (min-width: 823px) {
-    #home-view .topBg {
-      margin-top: 0;
-      width: 130%;
-    }
-    #home-view .topBg::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 0;
-      background: linear-gradient(0deg, #ffffff00, var(--main-light));
-    }
-  }
-  #home-view .topBg > picture > img {
-    width: 100%;
-  }
-  #home-view .homeTopSpc {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    overflow: hidden;
-    scroll-snap-align: start;
-  }
-  .homeTopSpc > h1 {
-    z-index: 20;
-    font-size: calc(2rem + 1vw);
-    font-weight: 900;
-    margin-bottom: 12px;
-    padding: 3px 12px;
-    color: #000000a1;
-    background: #ffffff9f;
-    text-shadow: 0 0 20px #0000002f;
-    border-radius: 13px;
-    -webkit-border-radius: 13px;
-    -moz-border-radius: 13px;
-    -ms-border-radius: 13px;
-    -o-border-radius: 13px;
-  }
-  .dark .homeTopSpc > h1 {
-    color: #ffffffd1;
-    background: #0000007f;
-  }
-  .homeTopSpc > p {
-    z-index: 15;
-    margin-bottom: 6px;
-    padding: 3px 12px;
-    background: #ffffff5f;
-    text-shadow: 0 0 15px #0000002f;
-    color: #0000007f;
-    border-radius: 13px;
-    -webkit-border-radius: 13px;
-    -moz-border-radius: 13px;
-    -ms-border-radius: 13px;
-    -o-border-radius: 13px;
-  }
-  .dark .homeTopSpc > p {
-    font-size: calc(1rem + 0.25vw);
-    color: #ffffff7f;
-    background: #0000007f;
-  }
-
-  #home-view .homeTopSpc img {
-    position: absolute;
-    width: 360px;
-  }
-  .homeTopSpc img.bgScr1 {
-    z-index: 10;
-    top: 10vh;
-    right: -15vw;
-    height: 35vh;
-    max-height: 480px;
-    width: auto !important;
-  }
-  .homeTopSpc img.bgScr2 {
-    top: 8vh;
-    left: -10vw;
-    width: auto !important;
-    height: 30vh;
-    max-height: 480px;
-  }
-  .homeTopSpc img.bgScr3 {
-    bottom: 5vh;
-    right: -7vw;
-    height: 40vh;
-    max-height: 480px;
-    width: auto !important;
-  }
-  .homeTopSpc img.bgScr4 {
-    bottom: 10vh;
-    left: -7vw;
-    height: 30vh;
-    max-height: 360px;
-    width: auto !important;
-  }
-
-  .homeTopSpc .moreBtn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6px 12px;
-    width: max-content;
-    z-index: 50;
-    position: absolute;
-    bottom: 92px;
-    background: #ffffff7f;
-    border-radius: 13px;
-    -webkit-border-radius: 13px;
-    -moz-border-radius: 13px;
-    -ms-border-radius: 13px;
-    -o-border-radius: 13px;
-  }
-  .homeTopSpc .moreBtn p {
-    color: #000000af;
-    text-align: center;
   }
 
   .home-block {
@@ -4400,35 +3859,6 @@ main {
 
 /* === Setting ==================================================== */
 @media (min-width: 1px) {
-  #Setting {
-    z-index: 6500;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: -100vh;
-    left: 0;
-    background: var(--theme-light);
-    transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
-    -webkit-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
-    -moz-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
-    -ms-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
-    -o-transition: 0.5s cubic-bezier(0.5, 0, 0.3, 1);
-  }
-  #Setting.dark {
-    background: var(--theme-dark);
-  }
-  #Setting.open {
-    top: 0;
-    transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-    -webkit-transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-    -moz-transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-    -ms-transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-    -o-transition: 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-  }
   nav.settingOpen {
     top: 100vh;
   }
